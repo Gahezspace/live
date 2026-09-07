@@ -1,7 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'wouter';
 import { ArrowRight, RefreshCw } from 'lucide-react';
 import '@/pages/style-guide.css';
+
+function useNoIndex(title: string) {
+  useEffect(() => {
+    document.title = title;
+    let meta = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'robots');
+      document.head.appendChild(meta);
+    }
+    const prev = meta.getAttribute('content');
+    meta.setAttribute('content', 'noindex, nofollow');
+    return () => {
+      if (prev) meta!.setAttribute('content', prev);
+    };
+  }, [title]);
+}
 
 /**
  * Living reference for the جاهز Live design system. Not linked from the
@@ -87,6 +104,7 @@ function SectionHead({ num, title }: { num: string; title: string }) {
 }
 
 export default function StyleGuide() {
+  useNoIndex('نظام تصميم جاهز Live');
   const [replayKey, setReplayKey] = useState(0);
 
   return (

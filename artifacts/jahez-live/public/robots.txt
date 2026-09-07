@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://gahezspace.github.io/live/sitemap.xml

@@ -1,406 +1,61 @@
-import { type FormEvent, type ReactNode, useEffect, useMemo, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import {
-  ArrowLeft,
-  ArrowDown,
-  ArrowUpLeft,
-  Bell,
-  Bookmark,
-  CarFront,
-  CalendarDays,
-  Check,
-  CirclePlay,
-  Clock3,
-  House,
-  LogIn,
-  Menu,
-  MessageCircle,
-  MonitorPlay,
-  Play,
-  Search,
-  ShieldCheck,
-  Sparkles,
-  Star,
-  Users,
-  UserPlus,
-  X,
-} from 'lucide-react';
-import { Link, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
+import { type ReactNode, useEffect } from 'react';
+import { Redirect, Route, Router as WouterRouter, Switch, useLocation } from 'wouter';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import NotFound from '@/pages/not-found';
+
+import Home from '@/pages/home';
+import Classes from '@/pages/classes';
+import Teachers from '@/pages/teachers';
+import HowItWorks from '@/pages/how-it-works';
+import ForStudents from '@/pages/for-students';
+import ForTeachers from '@/pages/for-teachers';
+import Payments from '@/pages/payments';
+import About from '@/pages/about';
+import Faq from '@/pages/faq';
+import Contact from '@/pages/contact';
+import Privacy from '@/pages/privacy';
+import Terms from '@/pages/terms';
+import RefundPolicy from '@/pages/refund-policy';
 import StyleGuide from '@/pages/style-guide';
+import NotFound from '@/pages/not-found';
 
 const queryClient = new QueryClient();
 
-type ClassItem = {
-  id: string;
-  title: string;
-  teacher: string;
-  initials: string;
-  avatar: string;
-  subject: string;
-  grade: string;
-  rating: string;
-  viewers?: string;
-  status: 'live' | 'upcoming';
-  theme: string;
-  equation: string;
-  caption: string;
-  date?: string;
-  time?: string;
-  day?: string;
-};
-
-const classes: ClassItem[] = [
-  { id: 'limits', title: 'النهايات ببساطة: كيف تفكر فيها قبل أن تحسبها؟', teacher: 'أ. نورة العتيبي', initials: 'نع', avatar: 'avatar-a', subject: 'رياضيات', grade: 'ثالث ثانوي', rating: '4.9', viewers: '342', status: 'live', theme: 'thumb-coral', equation: 'x → ∞', caption: 'THE BIG IDEA' },
-  { id: 'chemistry', title: 'التفاعلات الكيميائية: من المعادلة إلى التجربة', teacher: 'د. يزن الحربي', initials: 'يح', avatar: 'avatar-b', subject: 'كيمياء', grade: 'ثاني ثانوي', rating: '4.8', viewers: '218', status: 'live', theme: 'thumb-ink', equation: 'H₂O', caption: 'LET IT REACT' },
-  { id: 'writing', title: 'اكتب إجابة تترك أثراً في ورقة الاختبار', teacher: 'أ. ليان الشريف', initials: 'لش', avatar: 'avatar-c', subject: 'لغة عربية', grade: 'أول ثانوي', rating: '4.9', viewers: '97', status: 'live', theme: 'thumb-sun', equation: '« ! »', caption: 'MAKE IT CLEAR' },
-  { id: 'physics', title: 'الحركة الدائرية: السرعة التي لا تتوقف', teacher: 'أ. فهد السبيعي', initials: 'فس', avatar: 'avatar-d', subject: 'فيزياء', grade: 'ثالث ثانوي', rating: '4.7', status: 'upcoming', theme: 'thumb-mint', equation: 'F = ma', caption: 'COMING SOON', date: 'الخميس، 21 مارس', time: '07:30 م', day: '21' },
-  { id: 'grammar', title: 'النحو من الصفر: الجملة التي تفهمها من أول مرة', teacher: 'أ. سارة القحطاني', initials: 'سق', avatar: 'avatar-a', subject: 'لغة عربية', grade: 'ثاني متوسط', rating: '4.9', status: 'upcoming', theme: 'thumb-coral', equation: 'مبتدأ + خبر', caption: 'SAVE THE DATE', date: 'السبت، 23 مارس', time: '05:00 م', day: '23' },
-  { id: 'calculus', title: 'التكامل كمساحة: الدرس الذي يكمل الصورة', teacher: 'د. مازن الدوسري', initials: 'مد', avatar: 'avatar-b', subject: 'رياضيات', grade: 'ثالث ثانوي', rating: '4.8', status: 'upcoming', theme: 'thumb-ink', equation: '∫ f(x)', caption: 'PREMIERE', date: 'الأحد، 24 مارس', time: '08:00 م', day: '24' },
-  { id: 'english', title: 'Speak with confidence: من الفكرة إلى المحادثة', teacher: 'أ. ريم النجار', initials: 'رن', avatar: 'avatar-c', subject: 'لغة إنجليزية', grade: 'جميع المراحل', rating: '4.9', status: 'upcoming', theme: 'thumb-sun', equation: 'say it', caption: 'PREMIERE', date: 'الإثنين، 25 مارس', time: '06:30 م', day: '25' },
-];
-
-const teachers = [
-  { id: 'noura', name: 'أ. نورة العتيبي', specialty: 'رياضيات • 12.4k متابع', initials: 'نع', avatar: 'avatar-a' },
-  { id: 'yazan', name: 'د. يزن الحربي', specialty: 'كيمياء • 8.7k متابع', initials: 'يح', avatar: 'avatar-b' },
-  { id: 'layan', name: 'أ. ليان الشريف', specialty: 'لغة عربية • 6.2k متابع', initials: 'لش', avatar: 'avatar-c' },
-];
-
-function SignalMark({ compact = false }: { compact?: boolean }) {
-  return (
-    <span className={`signal-mark ${compact ? 'compact' : ''}`} aria-hidden="true">
-      <svg viewBox="0 0 46 46" role="presentation">
-        <path d="M10 31.5c5.1-11.7 11.9-18 20.3-18.8" />
-        <path d="M15.6 31.4c4.7-5.2 10.3-7.7 16.8-7.5" />
-        <path className="signal-check" d="M27.5 13.5l4 4 7-8" />
-        <circle cx="9.5" cy="32" r="3.2" />
-      </svg>
-    </span>
-  );
-}
-
-function Logo() {
-  return (
-    <span className="brand-lockup" aria-label="جاهز Live">
-      <SignalMark />
-      <span className="brand-name">
-        جاهز
-        <small><span>LIVE</span> / CLASSROOM</small>
-      </span>
-    </span>
-  );
-}
-
-function Header({ onNotify, onLogin, onSignup }: { onNotify: (message: string) => void; onLogin?: () => void; onSignup?: () => void }) {
+function ScrollToTop() {
   const [location] = useLocation();
-  const [menuOpen, setMenuOpen] = useState(false);
-  return (
-    <header className="topbar">
-      <div className="container-wide topbar-inner">
-        <Link href="/" className="brand-link" data-testid="link-brand-home"><Logo /></Link>
-        <nav className="nav-links" aria-label="التنقل الرئيسي">
-          <Link href="/" className={`nav-link ${location === '/' ? 'active' : ''}`} data-testid="link-discover">اكتشف</Link>
-          <Link href="/browse" className={`nav-link ${location === '/browse' ? 'active' : ''}`} data-testid="link-browse">تصفح الحصص</Link>
-          <button className="nav-link nav-button" onClick={() => onNotify('ستظهر حصصك المحفوظة هنا قريباً')} data-testid="button-saved">المحفوظات</button>
-        </nav>
-        <div className="topbar-actions">
-          {onLogin && <button className="header-login" onClick={onLogin} data-testid="button-header-login"><LogIn size={15} /> تسجيل الدخول</button>}
-          {onSignup && <button className="header-signup" onClick={onSignup} data-testid="button-header-signup"><UserPlus size={15} /> ابدأ مجانًا</button>}
-          <button className="icon-button notification-button" aria-label="الإشعارات" onClick={() => onNotify('لا يوجد إشعار جديد الآن')} data-testid="button-notifications"><Bell size={18} /><span className="notification-dot" /></button>
-          <button className="avatar" aria-label="الملف الشخصي" onClick={() => onNotify('مرحباً بك في جاهز Live')} data-testid="button-profile">م</button>
-          <button className="icon-button mobile-menu" aria-label={menuOpen ? 'إغلاق القائمة' : 'فتح القائمة'} onClick={() => setMenuOpen((value) => !value)} data-testid="button-mobile-menu">{menuOpen ? <X size={20} /> : <Menu size={20} />}</button>
-        </div>
-      </div>
-      {menuOpen && (
-        <div className="mobile-panel" role="dialog" aria-label="قائمة التنقل">
-          <Link href="/" onClick={() => setMenuOpen(false)} data-testid="mobile-link-discover">اكتشف</Link>
-          <Link href="/browse" onClick={() => setMenuOpen(false)} data-testid="mobile-link-browse">تصفح الحصص</Link>
-          {onLogin && <button onClick={() => { setMenuOpen(false); onLogin(); }} data-testid="mobile-button-login">تسجيل الدخول</button>}
-          {onSignup && <button onClick={() => { setMenuOpen(false); onSignup(); }} data-testid="mobile-button-signup">ابدأ مجانًا</button>}
-          <button onClick={() => { setMenuOpen(false); onNotify('ستظهر حصصك المحفوظة هنا قريباً'); }} data-testid="mobile-button-saved">المحفوظات</button>
-        </div>
-      )}
-    </header>
-  );
-}
-
-function BoardIllustration() {
-  return (
-    <div className="hero-board fade-up delay-2" aria-label="لوح يوضح لحظة الفهم">
-      <div className="board-corner board-corner-top">LIVE / 01</div>
-      <div className="floating-stats"><strong>+ ٣٤٢</strong><span>طالب يتعلمون الآن</span></div>
-      <div className="board-surface">
-        <div className="board-grid" aria-hidden="true" />
-        <span className="board-label">THE EXPLANATION SIGNAL</span>
-        <div className="board-copy" dir="rtl">
-          <span className="small">الدرس يبدأ بسؤال صغير</span>
-          <h2>متى تصبح<br /><mark>الفكرة واضحة؟</mark></h2>
-          <div className="equation"><span>سؤال</span><span className="mark">→</span><span>تجربة</span><span className="mark">→</span><span>فهم</span></div>
-        </div>
-        <svg className="board-squiggle" viewBox="0 0 210 48" aria-hidden="true"><path d="M5 31 C 45 3, 71 41, 103 20 S 165 5, 205 17" /></svg>
-        <div className="board-note"><span className="note-dot" />هنا تبدأ الـ «آها»</div>
-        <div className="board-stamp">جاهز<br /><b>LIVE</b></div>
-      </div>
-      <div className="board-corner board-corner-bottom">فهم / 24</div>
-    </div>
-  );
-}
-
-function ClassThumb({ item }: { item: ClassItem }) {
-  return (
-    <div className={`class-thumb ${item.theme}`}>
-      <span className="thumb-grid" aria-hidden="true" />
-      <span className="thumb-dot" />
-      <span className="thumb-orbit" />
-      <span className="thumb-equation">{item.equation}</span>
-      <span className="thumb-caption">{item.caption}</span>
-      <span className="status-badge"><span className={item.status === 'live' ? 'live-dot' : 'premiere-dot'} />{item.status === 'live' ? 'مباشر الآن' : 'حصة قادمة'}</span>
-    </div>
-  );
-}
-
-function ClassCard({ item, followed, onFollow, onAction }: { item: ClassItem; followed: boolean; onFollow: () => void; onAction: () => void }) {
-  return (
-    <article className="class-card fade-up" data-testid={`card-class-${item.id}`}>
-      <ClassThumb item={item} />
-      <div className="card-body">
-        <div className="card-meta"><span><span>{item.subject}</span><i>•</i><span>{item.grade}</span></span>{item.status === 'live' ? <span><Users size={13} /> {item.viewers}</span> : <span><Bookmark size={13} /> {item.date?.split('،')[0]}</span>}</div>
-        <h3 className="card-title" data-testid={`text-class-title-${item.id}`}>{item.title}</h3>
-        <div className="teacher-row">
-          <span className={`teacher-avatar ${item.avatar}`}>{item.initials}</span><span className="teacher-name">{item.teacher}</span><span className="rating"><Star size={11} /> {item.rating}</span>
-          <button className={`follow-button ${followed ? 'followed' : ''}`} aria-label={followed ? `إلغاء متابعة ${item.teacher}` : `متابعة ${item.teacher}`} onClick={onFollow} data-testid={`button-follow-${item.id}`}>{followed ? <Check size={16} /> : <PlusIcon />}</button>
-        </div>
-        <button className={`card-action ${item.status === 'live' ? 'live' : ''}`} onClick={onAction} data-testid={`button-class-action-${item.id}`}>{item.status === 'live' ? <><Play size={14} fill="currentColor" /> ادخل الحصة الآن</> : <><CalendarDays size={14} /> احجز مقعدك</>}</button>
-      </div>
-    </article>
-  );
-}
-
-function PlusIcon() {
-  return <svg className="plus-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" /></svg>;
-}
-
-function TeacherPanel({ followed, onFollow }: { followed: Set<string>; onFollow: (id: string, name: string) => void }) {
-  return (
-    <aside className="side-stack">
-      <div className="side-panel">
-        <div className="side-panel-head"><h3>معلمون يستحقون المتابعة</h3><span className="side-panel-note">هذا الأسبوع</span></div>
-        <div className="teacher-list">{teachers.map((teacher) => <div className="teacher-list-item" key={teacher.id} data-testid={`row-teacher-${teacher.id}`}><span className={`teacher-avatar ${teacher.avatar}`}>{teacher.initials}</span><span className="teacher-list-copy"><strong>{teacher.name}</strong><span>{teacher.specialty}</span></span><button className={`mini-follow ${followed.has(teacher.id) ? 'active' : ''}`} onClick={() => onFollow(teacher.id, teacher.name)} data-testid={`button-follow-teacher-${teacher.id}`}>{followed.has(teacher.id) ? 'تتابعه' : 'متابعة'}</button></div>)}</div>
-      </div>
-      <div className="side-panel note-panel">
-        <div className="side-panel-head"><h3>الفكرة لا تنتظر</h3><Sparkles size={17} /></div>
-        <p>كل يوم، يشرح معلم ما الشيء الذي جعلك تقول: «الآن فهمت!»</p>
-        <button onClick={() => document.getElementById('live-classes')?.scrollIntoView({ behavior: 'smooth' })} data-testid="button-jump-live">شاهد ما يحدث الآن <ArrowLeft size={13} /></button>
-      </div>
-    </aside>
-  );
-}
-
-function UpcomingCard({ item, onAction }: { item: ClassItem; onAction: () => void }) {
-  return (
-    <article className="upcoming-card fade-up" data-testid={`card-upcoming-${item.id}`}>
-      <div className="upcoming-date"><span>حصة مميزة</span><span className="date-block"><strong>{item.day}</strong> مارس</span></div>
-      <h3>{item.title}</h3>
-      <div className="upcoming-teacher"><span className={`teacher-avatar ${item.avatar}`}>{item.initials}</span><span>{item.teacher}</span></div>
-      <div className="upcoming-time"><Clock3 size={13} /> {item.date} — {item.time}</div>
-      <button className="card-action" onClick={onAction} data-testid={`button-reserve-${item.id}`}>احجز مقعدك الآن</button>
-    </article>
-  );
-}
-
-function DiscoveryPage({ browseMode = false }: { browseMode?: boolean }) {
-  const [query, setQuery] = useState('');
-  const [subject, setSubject] = useState('الكل');
-  const [activeTab, setActiveTab] = useState<'live' | 'upcoming'>(browseMode ? 'upcoming' : 'live');
-  const [followedClasses, setFollowedClasses] = useState<Set<string>>(new Set());
-  const [followedTeachers, setFollowedTeachers] = useState<Set<string>>(new Set());
-  const [toast, setToast] = useState('');
-
-  useEffect(() => { if (!toast) return; const timer = window.setTimeout(() => setToast(''), 2700); return () => window.clearTimeout(timer); }, [toast]);
-  const notify = (message: string) => setToast(message);
-  const subjects = ['الكل', 'رياضيات', 'فيزياء', 'كيمياء', 'لغة عربية', 'لغة إنجليزية'];
-  const filteredClasses = useMemo(() => classes.filter((item) => {
-    const matchesSubject = subject === 'الكل' || item.subject === subject;
-    const matchesTab = item.status === activeTab;
-    const matchesQuery = `${item.title} ${item.teacher} ${item.subject}`.includes(query.trim());
-    return matchesSubject && matchesTab && matchesQuery;
-  }), [activeTab, query, subject]);
-  const liveClasses = classes.filter((item) => item.status === 'live');
-  const upcomingClasses = classes.filter((item) => item.status === 'upcoming');
-  const toggleClassFollow = (id: string, teacher: string) => setFollowedClasses((current) => { const next = new Set(current); if (next.has(id)) { next.delete(id); notify(`ألغيت متابعة ${teacher}`); } else { next.add(id); notify(`ستصلك حصص ${teacher} الجديدة`); } return next; });
-  const toggleTeacherFollow = (id: string, teacher: string) => setFollowedTeachers((current) => { const next = new Set(current); if (next.has(id)) { next.delete(id); notify(`ألغيت متابعة ${teacher}`); } else { next.add(id); notify(`أصبحت تتابع ${teacher}`); } return next; });
-
-  return (
-    <div className="app-shell" dir="rtl">
-      <Header onNotify={notify} />
-      <main>
-        <section className="hero">
-          <div className="hero-scribble hero-scribble-one" aria-hidden="true">↗</div><div className="hero-scribble hero-scribble-two" aria-hidden="true">∿</div>
-          <div className="container-wide hero-grid">
-            <div className="fade-up">
-              <div className="eyebrow"><span className="eyebrow-line" /> تعلّم بصوتك، وبطريقتك <span className="eyebrow-dot" /></div>
-              <h1>{browseMode ? <>اختر الحصة التي<br /><em>تفتح الفكرة.</em></> : <>حين تشرح لك الفكرة نفسها،<br /><em>كل شيء يتغير.</em></>}</h1>
-              <p className="hero-copy">حصص مباشرة من معلمين تثق بهم. تعال لتسأل، جرّب، وافهم — في اللحظة التي تناسبك.</p>
-              <div className="hero-actions"><button className="button-primary" onClick={() => document.getElementById('live-classes')?.scrollIntoView({ behavior: 'smooth' })} data-testid="button-explore-live"><CirclePlay size={18} /> اكتشف الحصص الآن</button><button className="button-secondary" onClick={() => notify('تابع معلميك لتعرف كل جديد من جاهز Live')} data-testid="button-how-it-works"><Sparkles size={17} /> كيف يعمل جاهز Live؟</button></div>
-              <div className="hero-proof"><span className="proof-avatars"><i>نع</i><i>يح</i><i>لش</i></span><span><b>+12,400</b> طالب وجدوا شرحهم</span><span className="proof-separator" /><span className="proof-live"><span /> حي الآن</span></div>
-            </div>
-            <BoardIllustration />
-          </div>
-        </section>
-
-        <section className="section" id="live-classes">
-          <div className="container-wide">
-            <div className="section-intro"><div><p className="section-kicker">الإشارة الآن</p><h2 className="section-title">{activeTab === 'live' ? 'حصص تستحق أن تدخلها الآن' : 'حصص قادمة لا تفوّت بدايتها'}</h2></div><span className="section-index">01 / اكتشف</span></div>
-            <div className="discovery-bar"><div className="search-box"><Search size={18} /><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="ابحث عن مادة، معلم، أو فكرة..." aria-label="ابحث عن حصة" data-testid="input-search-classes" /></div><div className="segmented" role="tablist" aria-label="نوع الحصص"><button className={`segment ${activeTab === 'live' ? 'active' : ''}`} onClick={() => setActiveTab('live')} role="tab" aria-selected={activeTab === 'live'} data-testid="tab-live"><span className="segment-live-dot" />مباشر الآن <span dir="ltr">({liveClasses.length})</span></button><button className={`segment ${activeTab === 'upcoming' ? 'active' : ''}`} onClick={() => setActiveTab('upcoming')} role="tab" aria-selected={activeTab === 'upcoming'} data-testid="tab-upcoming">قادم قريباً <span dir="ltr">({upcomingClasses.length})</span></button></div></div>
-            <div className="filter-row" aria-label="تصفية حسب المادة">{subjects.map((item) => <button key={item} className={`filter-pill ${subject === item ? 'active' : ''}`} onClick={() => setSubject(item)} data-testid={`filter-subject-${item}`}>{item}</button>)}</div>
-            <div className="content-layout"><div className="class-grid">{filteredClasses.length ? filteredClasses.slice(0, 3).map((item) => <ClassCard key={item.id} item={item} followed={followedClasses.has(item.id)} onFollow={() => toggleClassFollow(item.id, item.teacher)} onAction={() => notify(item.status === 'live' ? `جارٍ تجهيز حصة ${item.teacher}` : `تم حفظ مقعدك في حصة ${item.teacher}`)} />) : <div className="empty-state"><Search size={27} /><h3>لم نجد هذه الفكرة بعد</h3><p>جرّب كلمة أخرى أو استكشف كل المواد.</p><button className="button-secondary" onClick={() => { setQuery(''); setSubject('الكل'); }} data-testid="button-clear-filters">إظهار كل الحصص</button></div>}</div><TeacherPanel followed={followedTeachers} onFollow={toggleTeacherFollow} /></div>
-          </div>
-        </section>
-
-        <section className="upcoming-section" id="upcoming-classes"><div className="container-wide"><div className="section-head"><div><p className="section-kicker">قريباً على السبورة</p><h2 className="section-title">احجز مكانك في لحظة الفهم</h2></div><button className="text-link" onClick={() => { setActiveTab('upcoming'); document.getElementById('live-classes')?.scrollIntoView({ behavior: 'smooth' }); }} data-testid="button-view-upcoming">كل الحصص القادمة <ArrowUpLeft size={15} /></button></div><div className="upcoming-grid">{upcomingClasses.map((item) => <UpcomingCard key={item.id} item={item} onAction={() => notify(`تم حفظ مقعدك في حصة ${item.teacher}`)} />)}</div></div></section>
-
-        <section className="teacher-strip"><div className="container-wide teacher-strip-grid"><div className="teacher-intro"><p className="section-kicker">أصوات تعرف كيف تشرح</p><h2>المعلم الجيد لا يعطيك الإجابة.<br /><span>يجعلك تراها بنفسك.</span></h2><p>تعرّف على معلمين يصنعون من كل حصة تجربة، ومن كل سؤال بداية جديدة.</p><button className="text-link" onClick={() => notify('دليل المعلمين قادم قريباً')} data-testid="button-all-teachers">اكتشف كل المعلمين <ArrowLeft size={15} /></button></div><div className="teacher-cards">{teachers.map((teacher, index) => <article className="expert-card fade-up" key={teacher.id} data-testid={`card-expert-${teacher.id}`}><div className="expert-top"><span className={`teacher-avatar ${teacher.avatar}`}>{teacher.initials}</span><span className="verified"><ShieldCheck size={13} /> موثّق</span></div><h3>{teacher.name}</h3><p>{teacher.specialty}</p><button className={`expert-follow ${followedTeachers.has(teacher.id) ? 'active' : ''}`} onClick={() => toggleTeacherFollow(teacher.id, teacher.name)} data-testid={`button-expert-follow-${teacher.id}`}>{followedTeachers.has(teacher.id) ? 'تتابعه الآن' : index === 1 ? 'يتابعه الكثيرون' : 'متابعة المعلم'}</button></article>)}</div></div></section>
-
-        <section className="cta-banner"><div className="cta-signal" aria-hidden="true"><SignalMark compact /></div><div><p className="section-kicker">جاهز للحظة؟</p><h2>هل أنت مستعد تقول: «آها، فهمت!»؟</h2><p>ابدأ بحصة واحدة. واترك الباقي للحظة المناسبة.</p></div><button className="button-secondary" onClick={() => document.getElementById('live-classes')?.scrollIntoView({ behavior: 'smooth' })} data-testid="button-cta-discover">ابدأ الاكتشاف <ArrowLeft size={16} /></button></section>
-      </main>
-      <footer className="footer"><div className="container-wide footer-inner"><div className="footer-brand"><Logo /><span>جزء من منظومة جاهز التعليمية</span></div><div className="footer-links"><a href="#live-classes" data-testid="link-footer-live">الحصص المباشرة</a><a href="#upcoming-classes" data-testid="link-footer-upcoming">القادمة</a><button onClick={() => notify('نتمنى لك تعلماً ممتعاً')} data-testid="button-footer-help">مركز المساعدة</button></div><div className="footer-copy">© 2024 جاهز Live</div></div></footer>
-      {toast && <div className="toast" role="status" data-testid="status-toast"><Check size={16} /> {toast}</div>}
-    </div>
-  );
-}
-
-type AuthMode = 'signup' | 'login';
-
-function AuthDialog({ mode, onClose, onNotify, onSwitch }: { mode: AuthMode; onClose: () => void; onNotify: (message: string) => void; onSwitch: (mode: AuthMode) => void }) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onNotify(mode === 'signup' ? 'تم استلام طلبك — سنجهّز لك أول حصة مباشرة قريباً' : 'أهلاً بعودتك — هذه نسخة تجريبية بدون حفظ بيانات');
-    onClose();
-  };
-  return (
-    <div className="auth-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
-      <section className="auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title" dir="rtl">
-        <button className="auth-close" onClick={onClose} aria-label="إغلاق" data-testid="button-close-auth"><X size={18} /></button>
-        <div className="auth-dialog-mark"><SignalMark compact /></div>
-        <p className="section-kicker">{mode === 'signup' ? 'خطوتك الأولى' : 'مرحباً بعودتك'}</p>
-        <h2 id="auth-title">{mode === 'signup' ? 'ابدأ مذاكرتك من مكانك' : 'سجّل دخولك إلى جاهز Live'}</h2>
-        <p className="auth-subtitle">{mode === 'signup' ? 'أنشئ حساباً مجانياً وتعرّف على المدرسين الذين يشرحون بالطريقة التي تناسبك.' : 'تابع معلميك وحصصك المحفوظة من أي مكان.'}</p>
-        <form onSubmit={submit} className="auth-form">
-          {mode === 'signup' && <label>الاسم الكامل<input required value={name} onChange={(event) => setName(event.target.value)} placeholder="مثال: سارة أحمد" autoFocus data-testid="input-auth-name" /></label>}
-          <label>البريد الإلكتروني<input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" autoFocus={mode === 'login'} data-testid="input-auth-email" /></label>
-          <button className="button-primary auth-submit" type="submit" data-testid="button-submit-auth">{mode === 'signup' ? <><UserPlus size={17} /> إنشاء حساب مجاني</> : <><LogIn size={17} /> تسجيل الدخول</>}</button>
-        </form>
-        <p className="auth-switch">{mode === 'signup' ? 'لديك حساب بالفعل؟' : 'أول مرة هنا؟'} <button onClick={() => onSwitch(mode === 'signup' ? 'login' : 'signup')} data-testid="button-switch-auth">{mode === 'signup' ? 'تسجيل الدخول' : 'أنشئ حساباً مجانياً'}</button></p>
-        <small className="auth-note">نسخة تجريبية: لا يتم حفظ بياناتك أو إرسالها الآن.</small>
-      </section>
-    </div>
-  );
-}
-
-function LandingSignalVisual() {
-  return (
-    <div className="landing-visual fade-up delay-2" aria-label="معاينة لمساحة مذاكرة مباشرة">
-      <div className="landing-visual-top"><span className="signal-live"><i /> LIVE / جلسة مباشرة</span><span>جاهز / 01</span></div>
-      <div className="lesson-window">
-        <div className="lesson-window-head"><span className="teacher-avatar avatar-a">نع</span><span><b>أ. نورة العتيبي</b><small>رياضيات • شرح النهايات</small></span><span className="window-users"><Users size={14} /> 342</span></div>
-        <div className="lesson-board"><span className="board-label">THE EXPLANATION SIGNAL</span><div><small>السؤال الذي يفتح الفكرة</small><strong>متى تصبح<br /><em>النهاية واضحة؟</em></strong><div className="mini-equation"><span>سؤال</span><b>→</b><span>تجربة</span><b>→</b><span>فهم</span></div></div><span className="mini-note">هنا تبدأ الـ «آها»</span></div>
-        <div className="lesson-window-foot"><span><MessageCircle size={14} /> اسأل المدرس مباشرة</span><span className="focus-chip"><Check size={13} /> من بيتك، بتركيزك</span></div>
-      </div>
-      <div className="visual-sticker visual-sticker-one"><House size={16} /><span>مكانك المفضل<br /><b>هو صفك</b></span></div>
-      <div className="visual-sticker visual-sticker-two"><span>+ ١٢,٤٠٠</span><small>طالب بدأوا من البيت</small></div>
-    </div>
-  );
-}
-
-function LandingPage() {
-  const [toast, setToast] = useState('');
-  const [authMode, setAuthMode] = useState<AuthMode | null>(null);
-  const [followed, setFollowed] = useState<Set<string>>(new Set());
-  useEffect(() => { if (!toast) return; const timer = window.setTimeout(() => setToast(''), 3000); return () => window.clearTimeout(timer); }, [toast]);
-  const notify = (message: string) => setToast(message);
-  const openSignup = () => setAuthMode('signup');
-  const openLogin = () => setAuthMode('login');
-  const toggleTeacher = (id: string, name: string) => setFollowed((current) => {
-    const next = new Set(current);
-    if (next.has(id)) { next.delete(id); notify(`ألغيت متابعة ${name}`); } else { next.add(id); notify(`ستصلك حصص ${name} الجديدة`); }
-    return next;
-  });
-  return (
-    <div className="app-shell landing-shell" dir="rtl">
-      <Header onNotify={notify} onLogin={openLogin} onSignup={openSignup} />
-      <main>
-        <section className="landing-hero">
-          <div className="hero-scribble landing-scribble" aria-hidden="true">∿</div>
-          <div className="container-wide landing-hero-grid">
-            <div className="landing-hero-copy fade-up">
-              <div className="eyebrow"><span className="eyebrow-line" /> جاهز Live — مذاكرة على طريقتك <span className="eyebrow-dot" /></div>
-              <h1>ذاكر من مكانك،<br />مع المدرس <em>اللي يفهمك.</em></h1>
-              <p className="hero-copy">جاهز Live يجمع لك مدرسين تثق فيهم وحصصهم المباشرة. افتح حصتك من البيت، اسأل، شارك، وافهم — بدون مشوار إلى السنتر.</p>
-              <div className="hero-actions"><button className="button-primary" onClick={openSignup} data-testid="button-hero-signup"><UserPlus size={18} /> ابدأ مجانًا</button><button className="button-secondary" onClick={openLogin} data-testid="button-hero-login"><LogIn size={17} /> تسجيل الدخول</button></div>
-              <div className="hero-proof landing-proof"><span className="proof-avatars"><i>نع</i><i>يح</i><i>لش</i></span><span><b>مدرسون موثوقون</b> يشرحون لا يلقّنون</span><span className="proof-separator" /><Link href="/browse" className="proof-browse" data-testid="link-hero-browse">تصفح الحصص <ArrowLeft size={13} /></Link></div>
-            </div>
-            <LandingSignalVisual />
-          </div>
-          <button className="scroll-cue" onClick={() => document.getElementById('why-live')?.scrollIntoView({ behavior: 'smooth' })} aria-label="اكتشف لماذا جاهز Live" data-testid="button-scroll-story"><span>اكتشف القصة</span><ArrowDown size={16} /></button>
-        </section>
-
-        <section className="friction-section" id="why-live">
-          <div className="container-wide">
-            <div className="section-intro landing-section-intro"><div><p className="section-kicker">المذاكرة لا تحتاج كل هذا</p><h2 className="section-title">خلّ عنك طريق السنتر.<br /><span className="title-accent">خلّ المكان يشتغل لك.</span></h2></div><span className="section-index">01 / لماذا لايف</span></div>
-            <p className="friction-lead">زحمة الطريق، وقت المواصلات، صوت المكان، وشرودك بين كل هذا… ليست جزءاً من الدرس. في جاهز Live، الحصة تأتيك إلى مكان هادئ تعرفه.</p>
-            <div className="friction-grid">
-              <article className="friction-card"><span className="friction-icon"><CarFront size={22} /></span><span className="friction-number">01</span><h3>لا طريق ولا مواصلات</h3><p>وفّر وقت المشوار وابدأ الدرس في الدقيقة التي تناسبك.</p></article>
-              <article className="friction-card friction-card-featured"><span className="friction-icon"><MonitorPlay size={22} /></span><span className="friction-number">02</span><h3>حصتك، من بيتك</h3><p>لا سنتر. لا زحمة. افتح الشاشة واجلس في المكان الذي تشعر فيه بالراحة.</p><span className="card-underline">وقت أكثر للفهم</span></article>
-              <article className="friction-card"><span className="friction-icon"><MessageCircle size={22} /></span><span className="friction-number">03</span><h3>شرح بلا ضوضاء</h3><p>اسأل المدرس، تابع الفكرة، وركّز بعيداً عن زحمة الأصوات والمقاعد.</p></article>
-              <article className="friction-card"><span className="friction-icon"><Sparkles size={22} /></span><span className="friction-number">04</span><h3>تركيز يشبهك</h3><p>أوقف ما يشتتك، ارجع للنقطة الصعبة، وكمل مع المدرس على إيقاعك.</p></article>
-            </div>
-          </div>
-        </section>
-
-        <section className="steps-section">
-          <div className="container-wide steps-layout">
-            <div className="steps-intro"><p className="section-kicker">بداية أسهل مما تتخيل</p><h2 className="section-title">من أول بحث<br /><span className="title-accent">إلى أول «فهمت».</span></h2><p>لا تحتاج تعرف من أين تبدأ. نحن نقرّب لك المدرس المناسب، وهو يأخذك إلى الفكرة.</p><button className="text-link" onClick={openSignup} data-testid="button-steps-signup">أنشئ حسابك وابدأ <ArrowLeft size={15} /></button></div>
-            <div className="steps-list">
-              <article className="step-item"><span className="step-number">١</span><div><h3>اختر المدرس الذي يناسبك</h3><p>تعرّف على أسلوب الشرح، المادة، وتجربة طلاب مثلك.</p></div><Search size={24} /></article>
-              <article className="step-item"><span className="step-number">٢</span><div><h3>اعرف متى يفتح حصته</h3><p>حين يعلن المدرس عن حصة مباشرة، ستجدها جاهزة أمامك.</p></div><CalendarDays size={24} /></article>
-              <article className="step-item"><span className="step-number">٣</span><div><h3>ادخل من مكانك وشارك</h3><p>شاهد، ارفع سؤالك، وخذ وقتك حتى تصبح الفكرة واضحة.</p></div><CirclePlay size={24} /></article>
-            </div>
-          </div>
-        </section>
-
-        <section className="teacher-proof-section">
-          <div className="container-wide">
-            <div className="section-head"><div><p className="section-kicker">أصوات تستحق الثقة</p><h2 className="section-title">مدرسون يفتحون لك<br /><span className="title-accent">باب الفكرة.</span></h2></div><Link href="/browse" className="text-link" data-testid="link-teacher-browse">استكشف الحصص <ArrowLeft size={15} /></Link></div>
-            <div className="proof-quote"><div className="quote-mark">“</div><blockquote>«أفضل شيء في الحصة المباشرة أن الطالب لا يظل وحده أمام السؤال. أراه يفكر، وأعرف أين أبدأ الشرح.»</blockquote><div className="quote-author"><span className="teacher-avatar avatar-a">نع</span><span><b>أ. نورة العتيبي</b><small>مدرسة رياضيات • موثقة على جاهز Live</small></span><ShieldCheck size={18} /></div></div>
-            <div className="teacher-proof-cards">{teachers.map((teacher) => <article className="proof-teacher-card" key={teacher.id}><div className="proof-teacher-top"><span className={`teacher-avatar ${teacher.avatar}`}>{teacher.initials}</span><span className="verified"><ShieldCheck size={13} /> موثّق</span></div><h3>{teacher.name}</h3><p>{teacher.specialty}</p><button className={`expert-follow ${followed.has(teacher.id) ? 'active' : ''}`} onClick={() => toggleTeacher(teacher.id, teacher.name)} data-testid={`button-landing-follow-${teacher.id}`}>{followed.has(teacher.id) ? 'تتابعه الآن' : 'تابع المعلم'}</button></article>)}</div>
-          </div>
-        </section>
-
-        <section className="browse-bridge">
-          <div className="container-wide browse-bridge-inner"><div><p className="section-kicker">وإذا كنت جاهزاً الآن</p><h2>شاهد من يشرح اليوم.</h2><p>اكتشف الحصص المباشرة والقادمة، ثم اختر اللحظة التي تناسب مذاكرتك.</p></div><Link href="/browse" className="button-secondary" data-testid="link-browse-classes">تصفح الحصص <ArrowLeft size={16} /></Link></div>
-        </section>
-
-        <section className="landing-cta"><div className="cta-signal"><SignalMark compact /></div><div><p className="section-kicker">جاهز للحصة الأولى؟</p><h2>لا تنتظر الطريق.<br /><span>ابدأ من مكانك.</span></h2><p>أنشئ حساباً مجانياً، واترك للشرح أن يجدك.</p></div><button className="button-secondary" onClick={openSignup} data-testid="button-final-signup">أنشئ حساباً مجانياً <UserPlus size={16} /></button></section>
-      </main>
-      <footer className="footer"><div className="container-wide footer-inner"><div className="footer-brand"><Logo /><span>جزء من منظومة جاهز التعليمية</span></div><div className="footer-links"><Link href="/browse" data-testid="link-footer-browse">تصفح الحصص</Link><button onClick={openLogin} data-testid="button-footer-login">تسجيل الدخول</button><button onClick={() => notify('مركز المساعدة سيكون معك قريباً')} data-testid="button-footer-help">مركز المساعدة</button></div><div className="footer-copy">© 2024 جاهز Live</div></div></footer>
-      {toast && <div className="toast" role="status" data-testid="status-toast"><Check size={16} /> {toast}</div>}
-      {authMode && <AuthDialog mode={authMode} onClose={() => setAuthMode(null)} onNotify={notify} onSwitch={setAuthMode} />}
-    </div>
-  );
+    window.scrollTo({ top: 0 });
+  }, [location]);
+  return null;
 }
 
 function Router() {
-  return <RoutedErrorBoundary><Switch><Route path="/" component={LandingPage} /><Route path="/browse" component={() => <DiscoveryPage browseMode />} /><Route path="/style-guide" component={StyleGuide} /><Route component={NotFound} /></Switch></RoutedErrorBoundary>;
+  return (
+    <RoutedErrorBoundary>
+      <ScrollToTop />
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/classes" component={Classes} />
+        {/* legacy path from an earlier build — keep working, point people at the new one */}
+        <Route path="/browse"><Redirect to="/classes" /></Route>
+        <Route path="/teachers" component={Teachers} />
+        <Route path="/how-it-works" component={HowItWorks} />
+        <Route path="/for-students" component={ForStudents} />
+        <Route path="/for-teachers" component={ForTeachers} />
+        <Route path="/payments" component={Payments} />
+        <Route path="/about" component={About} />
+        <Route path="/faq" component={Faq} />
+        <Route path="/contact" component={Contact} />
+        <Route path="/privacy" component={Privacy} />
+        <Route path="/terms" component={Terms} />
+        <Route path="/refund-policy" component={RefundPolicy} />
+        <Route path="/style-guide" component={StyleGuide} />
+        <Route component={NotFound} />
+      </Switch>
+    </RoutedErrorBoundary>
+  );
 }
 
 function RoutedErrorBoundary({ children }: { children: ReactNode }) {
@@ -409,7 +64,16 @@ function RoutedErrorBoundary({ children }: { children: ReactNode }) {
 }
 
 function App() {
-  return <QueryClientProvider client={queryClient}><TooltipProvider><WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><Router /></WouterRouter><Toaster /></TooltipProvider></QueryClientProvider>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+          <Router />
+        </WouterRouter>
+        <Toaster />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
 }
 
 export default App;
