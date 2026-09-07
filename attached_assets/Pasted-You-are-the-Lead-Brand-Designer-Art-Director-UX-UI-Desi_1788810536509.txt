@@ -1,0 +1,641 @@
+You are the Lead Brand Designer, Art Director, UX/UI Designer, and Product Design Strategist for a new EdTech platform.
+
+Before writing or changing any application code, I want you to develop a complete, professional brand identity for this product.
+
+## PRODUCT CONTEXT
+
+The product is a modern online live-class platform inside a larger platform called "جاهز".
+
+The service is essentially an online education center where independent teachers can create and host live classes, and students can discover, purchase, and attend those classes.
+
+Teachers can:
+
+* Create live classes
+* Schedule classes in advance
+* Publish "Premiere" upcoming classes
+* Upload a class thumbnail
+* Set the class title, description, subject, grade, date/time, and price
+* Build a following
+* Receive ratings
+* Track students, attendance, classes taught, and earnings
+
+Students can:
+
+* Discover live classes
+* See who is live now
+* Browse upcoming/premiere classes
+* Follow teachers
+* Receive notifications
+* Purchase a class
+* Join the live class
+* Watch replays
+* Rate teachers
+* Track their learning history
+
+The product should feel like:
+
+EDUCATION + LIVE CLASSROOM + TEACHER COMMUNITY + DISCOVERY + ENERGY
+
+It should NOT feel like:
+
+* A boring traditional school
+* A corporate LMS
+* A generic SaaS dashboard
+* A childish kids' education app
+* A cheap tutoring marketplace
+
+The brand should feel:
+
+* Modern
+* Smart
+* Energetic
+* Friendly
+* Creative
+* Educational
+* Trustworthy
+* Human
+* Youthful without being childish
+* Premium enough to compete with serious EdTech products
+
+The core visual inspiration should come from:
+
+* Whiteboards
+* Chalkboards
+* Handwritten notes
+* Marker strokes
+* Doodles
+* Underlines
+* Circles around important points
+* Arrows
+* Highlighting
+* Diagrams
+* Mathematical symbols
+* Teacher handwriting
+* Classroom energy
+* The moment when a teacher explains something and suddenly "it clicks"
+
+But DO NOT simply make the design look like a literal school board.
+
+The goal is to abstract these ideas into a sophisticated modern brand system.
+
+---
+
+# PHASE 1 — BRAND STRATEGY
+
+First, propose 3 distinct brand directions.
+
+For each direction provide:
+
+1. Brand concept
+2. Emotional personality
+3. Visual philosophy
+4. Logo concept
+5. Color philosophy
+6. Typography direction
+7. Illustration style
+8. Iconography style
+9. UI visual language
+10. Why it fits this product
+11. What makes it different from generic EdTech brands
+
+The three directions should be genuinely different, not minor variations.
+
+For example:
+
+Direction A:
+"Modern Whiteboard"
+
+Direction B:
+"Teacher's Notebook"
+
+Direction C:
+"Live Classroom Energy"
+
+These are examples only. Create better concepts yourself.
+
+Then choose the strongest direction and explain why.
+
+---
+
+# PHASE 2 — BRAND NAME
+
+The product name may not be finalized yet.
+
+Generate 15–25 potential brand names.
+
+The names should ideally work in Arabic, English, or both.
+
+Explore concepts related to:
+
+* Class
+* Lesson
+* Knowledge
+* Board
+* Learning
+* Teacher
+* Live
+* Notes
+* Explanation
+* Progress
+* Community
+
+Avoid generic names that sound like existing education startups.
+
+For every serious candidate provide:
+
+* Name
+* Arabic rendering if applicable
+* Meaning/concept
+* Brand personality
+* Why it works
+* How it could look as a logo
+* Whether it sounds premium, youthful, academic, or playful
+
+Then shortlist the strongest 5.
+
+DO NOT assume the final name without presenting the reasoning first.
+
+If the existing product architecture already contains a temporary service name, treat it as provisional until the brand direction is established.
+
+---
+
+# PHASE 3 — LOGO SYSTEM
+
+After selecting the strongest brand direction, design a complete logo concept.
+
+The logo should NOT simply be:
+
+"book + graduation cap + play button"
+
+Avoid overused EdTech symbols.
+
+Instead explore clever visual metaphors combining:
+
+* Whiteboard strokes
+* Handwritten marks
+* A lesson/check mark
+* A speech bubble
+* A live indicator
+* A classroom symbol
+* A letterform
+* A simplified board
+* A marker stroke
+* A cursor
+* A spark/idea
+* A play/live concept
+
+The logo must work at:
+
+* App icon
+* Website header
+* Mobile navigation
+* Teacher profile
+* Class cards
+* Social media avatar
+* Favicon
+* Splash screen
+* Dark background
+* Light background
+* Monochrome
+
+Create:
+
+1. Primary logo
+2. Symbol/icon
+3. Wordmark
+4. Horizontal lockup
+5. Compact lockup
+6. Monochrome version
+7. App icon concept
+
+The logo must remain recognizable when extremely small.
+
+---
+
+# PHASE 4 — COLOR SYSTEM
+
+Create a professional color palette.
+
+Do NOT use the typical boring EdTech combination of:
+blue + white + gray.
+
+The palette should feel connected to:
+
+* markers
+* whiteboards
+* colorful notes
+* classroom highlights
+* creativity
+* learning
+
+But it must still feel premium and accessible.
+
+Create:
+
+## Primary
+
+* Primary brand color
+* Primary dark
+* Primary light
+
+## Secondary
+
+* 2–4 secondary colors
+
+## Accent
+
+* Live
+* Premiere
+* Success
+* Warning
+* Error
+
+## Neutrals
+
+* Background
+* Surface
+* Card
+* Border
+* Text
+* Muted text
+
+Provide exact HEX values.
+
+Also define:
+
+* Color hierarchy
+* Where each color should be used
+* Which colors should NOT be overused
+* Light mode
+* Dark mode
+
+IMPORTANT:
+The UI should not become rainbow-colored.
+
+Use one dominant brand color with controlled educational/highlighter accents.
+
+---
+
+# PHASE 5 — TYPOGRAPHY
+
+Create a typography system supporting both:
+
+Arabic RTL and English LTR.
+
+The typography should feel modern, highly readable, and suitable for:
+
+* Students
+* Teachers
+* Dashboards
+* Class titles
+* Large marketing headlines
+* Mobile interfaces
+
+Recommend specific font families available through Google Fonts or another practical web/mobile source.
+
+Define:
+
+* Display font
+* Heading font
+* Body font
+* Arabic font
+* English font
+* UI font
+* Font weights
+* Font sizes
+* Line heights
+* Letter spacing
+
+The typography should feel like a modern education brand, not a government school website.
+
+---
+
+# PHASE 6 — VISUAL LANGUAGE
+
+Develop the complete visual language.
+
+The core idea should be:
+
+"Digital education with the personality of a real classroom."
+
+Explore a visual system based on:
+
+* Marker strokes
+* Hand-drawn arrows
+* Circles
+* Underlines
+* Highlighting
+* Doodles
+* Small educational symbols
+* Diagrams
+* Mathematical marks
+* Handwritten annotations
+
+However:
+
+DO NOT make every component look hand-drawn.
+
+Use these elements as accents within a clean modern interface.
+
+The result should feel:
+
+Clean foundation + human educational energy.
+
+Define:
+
+* Stroke style
+* Corner radius
+* Shadows
+* Borders
+* Illustration style
+* Background patterns
+* Decorative elements
+* Motion style
+* Hover effects
+* Micro-interactions
+
+---
+
+# PHASE 7 — ICONOGRAPHY
+
+Define an icon system.
+
+Icons should be:
+
+* Simple
+* Rounded
+* Modern
+* Friendly
+* Consistent
+
+Create visual rules for:
+
+* Stroke width
+* Corner radius
+* Filled vs outline
+* Active states
+* Navigation icons
+* Teacher icons
+* Student icons
+* Live icon
+* Premiere icon
+* Rating icon
+* Follow icon
+* Class icon
+* Replay icon
+
+---
+
+# PHASE 8 — UI DESIGN LANGUAGE
+
+Translate the brand into the actual product.
+
+Design principles:
+
+1. Content comes first.
+2. Classes should feel visually exciting.
+3. Teachers should feel like creators/experts.
+4. Live classes should feel alive.
+5. Upcoming classes should feel anticipatory.
+6. The interface should feel easy enough for a teenager.
+7. The teacher dashboard should still feel professional.
+8. The system should work beautifully in Arabic RTL.
+
+Define the visual treatment for:
+
+* Homepage
+* Live Now cards
+* Upcoming/Premiere cards
+* Teacher cards
+* Teacher profiles
+* Rating components
+* Follow buttons
+* Purchase buttons
+* Live indicators
+* Countdown timers
+* Class details
+* Video player
+* Chat
+* Notifications
+* Student dashboard
+* Teacher dashboard
+* Admin dashboard
+* Empty states
+* Loading states
+* Error states
+* Success states
+
+---
+
+# PHASE 9 — CLASS CARD DESIGN
+
+The class card is one of the most important components in the entire product.
+
+Design a distinctive class card system.
+
+A card should potentially communicate:
+
+* Class thumbnail
+* Teacher
+* Teacher rating
+* Subject
+* Grade
+* Class title
+* Viewer count
+* Live status
+* Premiere status
+* Date/time
+* Price
+* Followed teacher
+* Purchased state
+
+Create variants:
+
+1. Live Now
+2. Upcoming
+3. Premiere
+4. Replay
+5. Purchased
+6. Free
+7. Trending
+
+The LIVE state should be immediately recognizable.
+
+The Premiere state should feel exciting but not gimmicky.
+
+---
+
+# PHASE 10 — BRAND MOTION
+
+Define a subtle motion language.
+
+Examples:
+
+* Marker stroke animation
+* Underline animation
+* Live pulse
+* Premiere countdown
+* Card hover
+* Button interaction
+* Notification appearance
+* Page transitions
+* Loading animations
+
+Motion should communicate:
+
+* Energy
+* Learning
+* Live interaction
+* Progress
+
+Avoid excessive animation.
+
+---
+
+# PHASE 11 — BRAND ASSETS
+
+Define what assets the brand should eventually contain:
+
+* Logo
+* App icon
+* Favicon
+* Social avatar
+* Social banner
+* Teacher verification badge
+* Live badge
+* Premiere badge
+* Certificate design
+* Empty-state illustrations
+* Notification illustrations
+* Marketing illustrations
+* Background patterns
+* Stickers/doodles
+* Social media templates
+
+---
+
+# PHASE 12 — BRAND GUIDELINES
+
+Create a concise brand guideline document inside the project.
+
+It should include:
+
+1. Brand concept
+2. Brand personality
+3. Logo rules
+4. Logo spacing
+5. Logo misuse
+6. Color palette
+7. Typography
+8. Iconography
+9. Illustration style
+10. UI principles
+11. Motion principles
+12. Photography direction
+13. Arabic RTL considerations
+14. Accessibility considerations
+15. Do / Don't examples
+
+---
+
+# PHASE 13 — ACTUAL IMPLEMENTATION
+
+After the brand identity is approved conceptually, implement it into the project.
+
+IMPORTANT:
+
+Before modifying the existing project:
+
+1. Inspect the current repository.
+2. Identify the existing tech stack.
+3. Identify the current design system.
+4. Identify reusable components.
+5. Identify routing.
+6. Identify existing authentication.
+7. Identify existing branding from the parent "جاهز" platform.
+8. Do NOT unnecessarily rewrite existing architecture.
+9. Preserve existing functionality.
+10. Integrate the new service as a coherent sub-brand/service inside the existing "جاهز" ecosystem.
+
+If the project already has a design system, extend it instead of creating unnecessary duplicate systems.
+
+---
+
+# DESIGN QUALITY BAR
+
+The final result should look like a real funded EdTech startup with a serious design team behind it.
+
+Think in terms of:
+
+Duolingo's friendliness
++
+Notion's simplicity
++
+modern live-streaming products
++
+the visual personality of a teacher's whiteboard
+
+But DO NOT copy any existing brand.
+
+The identity must be original.
+
+Avoid:
+
+* Generic graduation caps
+* Generic books
+* Generic light bulbs
+* Generic pencils
+* Generic blue SaaS dashboards
+* Excessive gradients
+* Childish cartoon characters
+* Overly academic visuals
+* Stock-looking illustrations
+* Random colors
+* Random doodles
+
+Every visual decision must have a reason.
+
+---
+
+# IMPORTANT WORKFLOW
+
+Do NOT immediately start coding.
+
+First produce:
+
+## BRAND DISCOVERY REPORT
+
+Include:
+
+1. Brand positioning
+2. Target audience
+3. Brand personality
+4. 3 visual directions
+5. 15–25 name ideas
+6. Top 5 names
+7. Recommended direction
+8. Logo concept
+9. Color palette
+10. Typography
+11. Visual language
+12. UI direction
+13. Example class card concepts
+14. Example homepage visual direction
+15. Brand guidelines structure
+
+Then explicitly state:
+
+"BRAND FOUNDATION READY FOR IMPLEMENTATION"
+
+Only after that should implementation begin.
+
+If image-generation/design capabilities are available, use them to visualize the strongest concepts instead of relying only on textual descriptions.
+
+The goal is not merely to create a nice UI.
+
+The goal is to create a recognizable brand that students can identify instantly from:
+a color,
+a small icon,
+a handwritten stroke,
+a notification,
+or a class card — even without seeing the full logo.
