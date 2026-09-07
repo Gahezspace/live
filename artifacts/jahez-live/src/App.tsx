@@ -1,22 +1,28 @@
-import { type ReactNode, useEffect, useMemo, useState } from 'react';
+import { type FormEvent, type ReactNode, useEffect, useMemo, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   ArrowLeft,
+  ArrowDown,
   ArrowUpLeft,
   Bell,
   Bookmark,
+  CarFront,
   CalendarDays,
   Check,
-  ChevronLeft,
   CirclePlay,
   Clock3,
+  House,
+  LogIn,
   Menu,
+  MessageCircle,
+  MonitorPlay,
   Play,
   Search,
   ShieldCheck,
   Sparkles,
   Star,
   Users,
+  UserPlus,
   X,
 } from 'lucide-react';
 import { Link, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
@@ -87,7 +93,7 @@ function Logo() {
   );
 }
 
-function Header({ onNotify }: { onNotify: (message: string) => void }) {
+function Header({ onNotify, onLogin, onSignup }: { onNotify: (message: string) => void; onLogin?: () => void; onSignup?: () => void }) {
   const [location] = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   return (
@@ -100,6 +106,8 @@ function Header({ onNotify }: { onNotify: (message: string) => void }) {
           <button className="nav-link nav-button" onClick={() => onNotify('ستظهر حصصك المحفوظة هنا قريباً')} data-testid="button-saved">المحفوظات</button>
         </nav>
         <div className="topbar-actions">
+          {onLogin && <button className="header-login" onClick={onLogin} data-testid="button-header-login"><LogIn size={15} /> تسجيل الدخول</button>}
+          {onSignup && <button className="header-signup" onClick={onSignup} data-testid="button-header-signup"><UserPlus size={15} /> ابدأ مجانًا</button>}
           <button className="icon-button notification-button" aria-label="الإشعارات" onClick={() => onNotify('لا يوجد إشعار جديد الآن')} data-testid="button-notifications"><Bell size={18} /><span className="notification-dot" /></button>
           <button className="avatar" aria-label="الملف الشخصي" onClick={() => onNotify('مرحباً بك في جاهز Live')} data-testid="button-profile">م</button>
           <button className="icon-button mobile-menu" aria-label={menuOpen ? 'إغلاق القائمة' : 'فتح القائمة'} onClick={() => setMenuOpen((value) => !value)} data-testid="button-mobile-menu">{menuOpen ? <X size={20} /> : <Menu size={20} />}</button>
@@ -109,6 +117,8 @@ function Header({ onNotify }: { onNotify: (message: string) => void }) {
         <div className="mobile-panel" role="dialog" aria-label="قائمة التنقل">
           <Link href="/" onClick={() => setMenuOpen(false)} data-testid="mobile-link-discover">اكتشف</Link>
           <Link href="/browse" onClick={() => setMenuOpen(false)} data-testid="mobile-link-browse">تصفح الحصص</Link>
+          {onLogin && <button onClick={() => { setMenuOpen(false); onLogin(); }} data-testid="mobile-button-login">تسجيل الدخول</button>}
+          {onSignup && <button onClick={() => { setMenuOpen(false); onSignup(); }} data-testid="mobile-button-signup">ابدأ مجانًا</button>}
           <button onClick={() => { setMenuOpen(false); onNotify('ستظهر حصصك المحفوظة هنا قريباً'); }} data-testid="mobile-button-saved">المحفوظات</button>
         </div>
       )}
@@ -261,8 +271,135 @@ function DiscoveryPage({ browseMode = false }: { browseMode?: boolean }) {
   );
 }
 
+type AuthMode = 'signup' | 'login';
+
+function AuthDialog({ mode, onClose, onNotify, onSwitch }: { mode: AuthMode; onClose: () => void; onNotify: (message: string) => void; onSwitch: (mode: AuthMode) => void }) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onNotify(mode === 'signup' ? 'تم استلام طلبك — سنجهّز لك أول حصة مباشرة قريباً' : 'أهلاً بعودتك — هذه نسخة تجريبية بدون حفظ بيانات');
+    onClose();
+  };
+  return (
+    <div className="auth-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+      <section className="auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title" dir="rtl">
+        <button className="auth-close" onClick={onClose} aria-label="إغلاق" data-testid="button-close-auth"><X size={18} /></button>
+        <div className="auth-dialog-mark"><SignalMark compact /></div>
+        <p className="section-kicker">{mode === 'signup' ? 'خطوتك الأولى' : 'مرحباً بعودتك'}</p>
+        <h2 id="auth-title">{mode === 'signup' ? 'ابدأ مذاكرتك من مكانك' : 'سجّل دخولك إلى جاهز Live'}</h2>
+        <p className="auth-subtitle">{mode === 'signup' ? 'أنشئ حساباً مجانياً وتعرّف على المدرسين الذين يشرحون بالطريقة التي تناسبك.' : 'تابع معلميك وحصصك المحفوظة من أي مكان.'}</p>
+        <form onSubmit={submit} className="auth-form">
+          {mode === 'signup' && <label>الاسم الكامل<input required value={name} onChange={(event) => setName(event.target.value)} placeholder="مثال: سارة أحمد" autoFocus data-testid="input-auth-name" /></label>}
+          <label>البريد الإلكتروني<input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" autoFocus={mode === 'login'} data-testid="input-auth-email" /></label>
+          <button className="button-primary auth-submit" type="submit" data-testid="button-submit-auth">{mode === 'signup' ? <><UserPlus size={17} /> إنشاء حساب مجاني</> : <><LogIn size={17} /> تسجيل الدخول</>}</button>
+        </form>
+        <p className="auth-switch">{mode === 'signup' ? 'لديك حساب بالفعل؟' : 'أول مرة هنا؟'} <button onClick={() => onSwitch(mode === 'signup' ? 'login' : 'signup')} data-testid="button-switch-auth">{mode === 'signup' ? 'تسجيل الدخول' : 'أنشئ حساباً مجانياً'}</button></p>
+        <small className="auth-note">نسخة تجريبية: لا يتم حفظ بياناتك أو إرسالها الآن.</small>
+      </section>
+    </div>
+  );
+}
+
+function LandingSignalVisual() {
+  return (
+    <div className="landing-visual fade-up delay-2" aria-label="معاينة لمساحة مذاكرة مباشرة">
+      <div className="landing-visual-top"><span className="signal-live"><i /> LIVE / جلسة مباشرة</span><span>جاهز / 01</span></div>
+      <div className="lesson-window">
+        <div className="lesson-window-head"><span className="teacher-avatar avatar-a">نع</span><span><b>أ. نورة العتيبي</b><small>رياضيات • شرح النهايات</small></span><span className="window-users"><Users size={14} /> 342</span></div>
+        <div className="lesson-board"><span className="board-label">THE EXPLANATION SIGNAL</span><div><small>السؤال الذي يفتح الفكرة</small><strong>متى تصبح<br /><em>النهاية واضحة؟</em></strong><div className="mini-equation"><span>سؤال</span><b>→</b><span>تجربة</span><b>→</b><span>فهم</span></div></div><span className="mini-note">هنا تبدأ الـ «آها»</span></div>
+        <div className="lesson-window-foot"><span><MessageCircle size={14} /> اسأل المدرس مباشرة</span><span className="focus-chip"><Check size={13} /> من بيتك، بتركيزك</span></div>
+      </div>
+      <div className="visual-sticker visual-sticker-one"><House size={16} /><span>مكانك المفضل<br /><b>هو صفك</b></span></div>
+      <div className="visual-sticker visual-sticker-two"><span>+ ١٢,٤٠٠</span><small>طالب بدأوا من البيت</small></div>
+    </div>
+  );
+}
+
+function LandingPage() {
+  const [toast, setToast] = useState('');
+  const [authMode, setAuthMode] = useState<AuthMode | null>(null);
+  const [followed, setFollowed] = useState<Set<string>>(new Set());
+  useEffect(() => { if (!toast) return; const timer = window.setTimeout(() => setToast(''), 3000); return () => window.clearTimeout(timer); }, [toast]);
+  const notify = (message: string) => setToast(message);
+  const openSignup = () => setAuthMode('signup');
+  const openLogin = () => setAuthMode('login');
+  const toggleTeacher = (id: string, name: string) => setFollowed((current) => {
+    const next = new Set(current);
+    if (next.has(id)) { next.delete(id); notify(`ألغيت متابعة ${name}`); } else { next.add(id); notify(`ستصلك حصص ${name} الجديدة`); }
+    return next;
+  });
+  return (
+    <div className="app-shell landing-shell" dir="rtl">
+      <Header onNotify={notify} onLogin={openLogin} onSignup={openSignup} />
+      <main>
+        <section className="landing-hero">
+          <div className="hero-scribble landing-scribble" aria-hidden="true">∿</div>
+          <div className="container-wide landing-hero-grid">
+            <div className="landing-hero-copy fade-up">
+              <div className="eyebrow"><span className="eyebrow-line" /> جاهز Live — مذاكرة على طريقتك <span className="eyebrow-dot" /></div>
+              <h1>ذاكر من مكانك،<br />مع المدرس <em>اللي يفهمك.</em></h1>
+              <p className="hero-copy">جاهز Live يجمع لك مدرسين تثق فيهم وحصصهم المباشرة. افتح حصتك من البيت، اسأل، شارك، وافهم — بدون مشوار إلى السنتر.</p>
+              <div className="hero-actions"><button className="button-primary" onClick={openSignup} data-testid="button-hero-signup"><UserPlus size={18} /> ابدأ مجانًا</button><button className="button-secondary" onClick={openLogin} data-testid="button-hero-login"><LogIn size={17} /> تسجيل الدخول</button></div>
+              <div className="hero-proof landing-proof"><span className="proof-avatars"><i>نع</i><i>يح</i><i>لش</i></span><span><b>مدرسون موثوقون</b> يشرحون لا يلقّنون</span><span className="proof-separator" /><Link href="/browse" className="proof-browse" data-testid="link-hero-browse">تصفح الحصص <ArrowLeft size={13} /></Link></div>
+            </div>
+            <LandingSignalVisual />
+          </div>
+          <button className="scroll-cue" onClick={() => document.getElementById('why-live')?.scrollIntoView({ behavior: 'smooth' })} aria-label="اكتشف لماذا جاهز Live" data-testid="button-scroll-story"><span>اكتشف القصة</span><ArrowDown size={16} /></button>
+        </section>
+
+        <section className="friction-section" id="why-live">
+          <div className="container-wide">
+            <div className="section-intro landing-section-intro"><div><p className="section-kicker">المذاكرة لا تحتاج كل هذا</p><h2 className="section-title">خلّ عنك طريق السنتر.<br /><span className="title-accent">خلّ المكان يشتغل لك.</span></h2></div><span className="section-index">01 / لماذا لايف</span></div>
+            <p className="friction-lead">زحمة الطريق، وقت المواصلات، صوت المكان، وشرودك بين كل هذا… ليست جزءاً من الدرس. في جاهز Live، الحصة تأتيك إلى مكان هادئ تعرفه.</p>
+            <div className="friction-grid">
+              <article className="friction-card"><span className="friction-icon"><CarFront size={22} /></span><span className="friction-number">01</span><h3>لا طريق ولا مواصلات</h3><p>وفّر وقت المشوار وابدأ الدرس في الدقيقة التي تناسبك.</p></article>
+              <article className="friction-card friction-card-featured"><span className="friction-icon"><MonitorPlay size={22} /></span><span className="friction-number">02</span><h3>حصتك، من بيتك</h3><p>لا سنتر. لا زحمة. افتح الشاشة واجلس في المكان الذي تشعر فيه بالراحة.</p><span className="card-underline">وقت أكثر للفهم</span></article>
+              <article className="friction-card"><span className="friction-icon"><MessageCircle size={22} /></span><span className="friction-number">03</span><h3>شرح بلا ضوضاء</h3><p>اسأل المدرس، تابع الفكرة، وركّز بعيداً عن زحمة الأصوات والمقاعد.</p></article>
+              <article className="friction-card"><span className="friction-icon"><Sparkles size={22} /></span><span className="friction-number">04</span><h3>تركيز يشبهك</h3><p>أوقف ما يشتتك، ارجع للنقطة الصعبة، وكمل مع المدرس على إيقاعك.</p></article>
+            </div>
+          </div>
+        </section>
+
+        <section className="steps-section">
+          <div className="container-wide steps-layout">
+            <div className="steps-intro"><p className="section-kicker">بداية أسهل مما تتخيل</p><h2 className="section-title">من أول بحث<br /><span className="title-accent">إلى أول «فهمت».</span></h2><p>لا تحتاج تعرف من أين تبدأ. نحن نقرّب لك المدرس المناسب، وهو يأخذك إلى الفكرة.</p><button className="text-link" onClick={openSignup} data-testid="button-steps-signup">أنشئ حسابك وابدأ <ArrowLeft size={15} /></button></div>
+            <div className="steps-list">
+              <article className="step-item"><span className="step-number">١</span><div><h3>اختر المدرس الذي يناسبك</h3><p>تعرّف على أسلوب الشرح، المادة، وتجربة طلاب مثلك.</p></div><Search size={24} /></article>
+              <article className="step-item"><span className="step-number">٢</span><div><h3>اعرف متى يفتح حصته</h3><p>حين يعلن المدرس عن حصة مباشرة، ستجدها جاهزة أمامك.</p></div><CalendarDays size={24} /></article>
+              <article className="step-item"><span className="step-number">٣</span><div><h3>ادخل من مكانك وشارك</h3><p>شاهد، ارفع سؤالك، وخذ وقتك حتى تصبح الفكرة واضحة.</p></div><CirclePlay size={24} /></article>
+            </div>
+          </div>
+        </section>
+
+        <section className="teacher-proof-section">
+          <div className="container-wide">
+            <div className="section-head"><div><p className="section-kicker">أصوات تستحق الثقة</p><h2 className="section-title">مدرسون يفتحون لك<br /><span className="title-accent">باب الفكرة.</span></h2></div><Link href="/browse" className="text-link" data-testid="link-teacher-browse">استكشف الحصص <ArrowLeft size={15} /></Link></div>
+            <div className="proof-quote"><div className="quote-mark">“</div><blockquote>«أفضل شيء في الحصة المباشرة أن الطالب لا يظل وحده أمام السؤال. أراه يفكر، وأعرف أين أبدأ الشرح.»</blockquote><div className="quote-author"><span className="teacher-avatar avatar-a">نع</span><span><b>أ. نورة العتيبي</b><small>مدرسة رياضيات • موثقة على جاهز Live</small></span><ShieldCheck size={18} /></div></div>
+            <div className="teacher-proof-cards">{teachers.map((teacher) => <article className="proof-teacher-card" key={teacher.id}><div className="proof-teacher-top"><span className={`teacher-avatar ${teacher.avatar}`}>{teacher.initials}</span><span className="verified"><ShieldCheck size={13} /> موثّق</span></div><h3>{teacher.name}</h3><p>{teacher.specialty}</p><button className={`expert-follow ${followed.has(teacher.id) ? 'active' : ''}`} onClick={() => toggleTeacher(teacher.id, teacher.name)} data-testid={`button-landing-follow-${teacher.id}`}>{followed.has(teacher.id) ? 'تتابعه الآن' : 'تابع المعلم'}</button></article>)}</div>
+          </div>
+        </section>
+
+        <section className="browse-bridge">
+          <div className="container-wide browse-bridge-inner"><div><p className="section-kicker">وإذا كنت جاهزاً الآن</p><h2>شاهد من يشرح اليوم.</h2><p>اكتشف الحصص المباشرة والقادمة، ثم اختر اللحظة التي تناسب مذاكرتك.</p></div><Link href="/browse" className="button-secondary" data-testid="link-browse-classes">تصفح الحصص <ArrowLeft size={16} /></Link></div>
+        </section>
+
+        <section className="landing-cta"><div className="cta-signal"><SignalMark compact /></div><div><p className="section-kicker">جاهز للحصة الأولى؟</p><h2>لا تنتظر الطريق.<br /><span>ابدأ من مكانك.</span></h2><p>أنشئ حساباً مجانياً، واترك للشرح أن يجدك.</p></div><button className="button-secondary" onClick={openSignup} data-testid="button-final-signup">أنشئ حساباً مجانياً <UserPlus size={16} /></button></section>
+      </main>
+      <footer className="footer"><div className="container-wide footer-inner"><div className="footer-brand"><Logo /><span>جزء من منظومة جاهز التعليمية</span></div><div className="footer-links"><Link href="/browse" data-testid="link-footer-browse">تصفح الحصص</Link><button onClick={openLogin} data-testid="button-footer-login">تسجيل الدخول</button><button onClick={() => notify('مركز المساعدة سيكون معك قريباً')} data-testid="button-footer-help">مركز المساعدة</button></div><div className="footer-copy">© 2024 جاهز Live</div></div></footer>
+      {toast && <div className="toast" role="status" data-testid="status-toast"><Check size={16} /> {toast}</div>}
+      {authMode && <AuthDialog mode={authMode} onClose={() => setAuthMode(null)} onNotify={notify} onSwitch={setAuthMode} />}
+    </div>
+  );
+}
+
 function Router() {
-  return <RoutedErrorBoundary><Switch><Route path="/" component={() => <DiscoveryPage />} /><Route path="/browse" component={() => <DiscoveryPage browseMode />} /><Route component={NotFound} /></Switch></RoutedErrorBoundary>;
+  return <RoutedErrorBoundary><Switch><Route path="/" component={LandingPage} /><Route path="/browse" component={() => <DiscoveryPage browseMode />} /><Route component={NotFound} /></Switch></RoutedErrorBoundary>;
 }
 
 function RoutedErrorBoundary({ children }: { children: ReactNode }) {
