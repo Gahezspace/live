@@ -17,6 +17,31 @@ it. It updates automatically whenever the token files change.
 | Keyframes + animation/interaction utility classes | [`src/styles/animations.css`](src/styles/animations.css) |
 | Hand-built component classes (topbar, hero, cards, forms…) | [`src/index.css`](src/index.css) |
 | Living, visual reference of everything below | [`src/pages/style-guide.tsx`](src/pages/style-guide.tsx) → `/style-guide` |
+| Route manifest (path, nav/footer label, SEO title/description) | [`src/lib/routes.ts`](src/lib/routes.ts) |
+| Unconfigured business details (support email, store links, socials) | [`src/lib/site-config.ts`](src/lib/site-config.ts) |
+| Shared marketing components (Header, Footer, cards, CTA, FAQ…) | [`src/components/marketing/`](src/components/marketing) |
+| Per-route SEO (title/meta/canonical/OG + JSON-LD) | [`src/hooks/use-seo.ts`](src/hooks/use-seo.ts) + [`src/lib/structured-data.ts`](src/lib/structured-data.ts) |
+
+## Adding a new public page
+
+1. Add an entry to `src/lib/routes.ts` (path, nav/footer label if it belongs
+   in navigation, SEO title/description).
+2. Add the page component under `src/pages/`, call `useSeo(...)` with that
+   route's title/description/path at the top, and register it in the
+   `<Switch>` in `App.tsx`.
+3. Pick a shell: `ContentPage` (Header/Footer/breadcrumbs/title, Tailwind +
+   shadcn body) for text-first pages, or hand-build with `Header`/`Footer`
+   directly for an expressive marketing page — see the checklist below for
+   how to style it either way.
+4. Add the route's `path`/`title`/`description` to the `routes` array in
+   `scripts/generate-seo-html.mjs` and a `<url>` entry in
+   `public/sitemap.xml`, so crawlers get a real prerendered page and the
+   sitemap stays complete. (These intentionally duplicate `routes.ts` in
+   plain JS/XML rather than importing it, so the post-build script has no
+   TypeScript/bundler dependency.)
+5. Never invent a business detail (email, phone, price, store link, stat).
+   If it isn't real yet, read it from `site-config.ts` and hide the UI when
+   it's unset — don't hardcode a placeholder into the page.
 
 `index.css` imports both token files first, so every custom class below them
 can reference `var(--token-name)`.
