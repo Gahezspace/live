@@ -1,0 +1,204 @@
+/**
+ * جاهز Live — Design Tokens
+ * ==========================
+ * Single source of truth for color, type, spacing, shape and elevation.
+ * Every new page/component should read values from here — never hardcode
+ * a new color, radius or shadow inline. See ../../DESIGN_SYSTEM.md for
+ * the full usage guide.
+ */
+
+@theme inline {
+  --font-sans: var(--app-font-sans);
+  --font-display: var(--app-font-display);
+  --font-mono: var(--app-font-mono);
+
+  /* Expose the shadcn/ui semantic tokens as Tailwind color utilities
+     (bg-primary, text-foreground, border-border, …) so shadcn components
+     under src/components/ui and Tailwind utility classes in new pages
+     resolve to the exact same brand colors as the hand-built components. */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  /* Raw brand "ink & paper" voice — for illustrations, brand marks and
+     one-off decorative surfaces that intentionally sit outside the
+     semantic light/dark system. */
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-coral: var(--coral);
+  --color-sun: var(--sun);
+  --color-mint: var(--mint);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  /* ---------------------------------------------------------------- */
+  /* Color — semantic surface/text roles (shadcn convention, HSL triplets) */
+  /* ---------------------------------------------------------------- */
+  --background: 38 33% 94%;
+  --foreground: 178 30% 16%;
+  --card: 40 40% 98%;
+  --card-foreground: 178 30% 16%;
+  --border: 38 17% 82%;
+  --input: 38 17% 82%;
+  --ring: 10 78% 60%;
+  --primary: 178 30% 16%;
+  --primary-foreground: 39 40% 97%;
+  --secondary: 157 29% 84%;
+  --secondary-foreground: 177 31% 20%;
+  --muted: 38 22% 89%;
+  --muted-foreground: 175 10% 42%;
+  --accent: 10 78% 60%;
+  --accent-foreground: 38 40% 97%;
+  --destructive: 2 67% 50%;
+  --destructive-foreground: 0 0% 100%;
+  --popover: 40 40% 98%;
+  --popover-foreground: 178 30% 16%;
+  --radius: .85rem;
+
+  /* Semantic status colors — kept outside shadcn's palette so alerts/toasts
+     in future pages don't invent new hues. Use sparingly; accent still
+     covers "brand emphasis". */
+  --success: 152 45% 34%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 88% 48%;
+  --warning-foreground: 178 30% 16%;
+  --info: 205 60% 45%;
+  --info-foreground: 0 0% 100%;
+
+  /* Fonts */
+  --app-font-sans: 'Cairo', sans-serif;
+  --app-font-display: 'Cairo', sans-serif;
+  --app-font-mono: 'Space Grotesk', sans-serif;
+
+  /* Raw brand hex — the "ink & paper" illustration palette used by hero
+     boards, signal marks and stickers. Prefer the semantic tokens above
+     for UI chrome; reach for these only in illustrative/brand contexts. */
+  --ink: #193b3a;
+  --paper: #f5f1e9;
+  --coral: #ed6a4d;
+  --sun: #efc958;
+  --mint: #cfe5dc;
+
+  /* ---------------------------------------------------------------- */
+  /* Typography scale                                                  */
+  /* ---------------------------------------------------------------- */
+  /* Fixed sizes for body copy and UI text — use Tailwind's text-* utilities
+     (text-sm, text-base, text-lg…) for these in new pages; they already
+     read from this scale via Tailwind's defaults. Listed here for reference. */
+
+  /* Fluid display sizes — hand-tuned clamps for large marketing headlines.
+     New pages should reach for one of these four rather than writing a
+     bespoke clamp() per section. */
+  --text-display-hero: clamp(2.8rem, 5vw, 5rem);       /* single-column page hero (H1) */
+  --text-display-xl: clamp(3.1rem, 5.4vw, 5.55rem);    /* two-column landing hero (H1) */
+  --text-display-lg: clamp(2rem, 3.8vw, 3.2rem);       /* section headline (H2) */
+  --text-display-md: 2rem;                             /* compact section headline (H2) */
+
+  --leading-display: 1.15;
+  --tracking-display: -.09em;
+
+  /* ---------------------------------------------------------------- */
+  /* Spacing — for bespoke component CSS only. New page layout should use  */
+  /* Tailwind's default spacing scale (p-4, gap-6…); these exist so hand-  */
+  /* rolled section/illustration CSS stays on the same 4px rhythm.        */
+  /* ---------------------------------------------------------------- */
+  --space-1: .25rem;   /* 4px */
+  --space-2: .5rem;    /* 8px */
+  --space-3: .75rem;   /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+  --space-20: 5rem;    /* 80px */
+  --space-section: 5.5rem;      /* default section block padding */
+  --space-section-lg: 6.5rem;   /* generous section block padding */
+
+  /* ---------------------------------------------------------------- */
+  /* Shape — the brand's signature "one sharp corner" language.           */
+  /* ---------------------------------------------------------------- */
+  /* Uniform radii, for ordinary UI chrome (inputs, icon buttons, chips). */
+  --radius-chip: .5rem;
+  --radius-control: .65rem;
+
+  /* Asymmetric "signal" radii — a single crisp corner against three soft
+     ones. This is the brand's recurring shape motif: use -sm for small
+     tags/badges, -card for cards/panels, -panel for large surfaces
+     (dialogs, hero boards, CTA banners). Pick the sharp corner to face
+     whichever edge reads as the "start" of the shape in context. */
+  --radius-signal-sm: 4px 12px 4px 12px;
+  --radius-signal-badge: 4px 10px 4px 10px;
+  --radius-signal-card: 4px 18px 18px 18px;
+  --radius-signal-panel: 5px 25px 25px 25px;
+  --radius-signal-mark: 13px 13px 13px 3px;
+
+  /* ---------------------------------------------------------------- */
+  /* Elevation — flat, hard-edged "sticker" shadows (no blur). This        */
+  /* replaces conventional soft drop shadows across the whole product.    */
+  /* Pair a size token with a color, e.g.:                                */
+  /*   box-shadow: var(--shadow-sticker-sm) hsl(var(--accent) / .72);     */
+  /* ---------------------------------------------------------------- */
+  --shadow-sticker-xs: 3px 3px 0;
+  --shadow-sticker-sm: 4px 4px 0;
+  --shadow-sticker-md: 6px 6px 0;
+  --shadow-sticker-lg: 9px 10px 0;
+  --shadow-sticker-xl: 12px 13px 0;
+
+  /* Conventional soft shadow, for floating surfaces that must sit above
+     content without the sticker motif (menus, dropdowns, popovers). */
+  --shadow-float: 0 14px 28px hsl(var(--primary) / .13);
+
+  /* ---------------------------------------------------------------- */
+  /* Motion — durations & easings. See src/styles/animations.css for the  */
+  /* keyframe library and utility classes built from these.               */
+  /* ---------------------------------------------------------------- */
+  --duration-instant: 100ms;
+  --duration-fast: 180ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 650ms;
+
+  /* The brand's default "settle" curve — a soft overshoot-free ease-out.
+     Used for entrances (fade-up, scale-in) and most hover transitions. */
+  --ease-signal: cubic-bezier(.22, .8, .28, 1);
+  /* A livelier curve with a touch of spring, for playful micro-interactions
+     (badge pop-ins, follow buttons, toasts). */
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --ease-in-out: cubic-bezier(.4, 0, .2, 1);
+
+  /* Stagger step used between siblings in a list/grid entrance animation. */
+  --stagger-step: 80ms;
+
+  /* ---------------------------------------------------------------- */
+  /* Z-index scale — keep every new overlay on this ladder instead of      */
+  /* picking an arbitrary number.                                         */
+  /* ---------------------------------------------------------------- */
+  --z-content: 2;
+  --z-sticky: 30;      /* sticky topbar */
+  --z-dropdown: 40;    /* mobile nav panel, menus */
+  --z-toast: 60;       /* toast notifications */
+  --z-modal: 80;       /* auth dialog and other blocking overlays */
+}

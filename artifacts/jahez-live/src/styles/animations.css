@@ -1,0 +1,188 @@
+/**
+ * جاهز Live — Motion System
+ * ==========================
+ * Every animation in the product is built from the durations/easings in
+ * tokens.css plus the keyframes and utility classes below. Reach for one
+ * of these utilities before writing a new @keyframes block — see
+ * ../../DESIGN_SYSTEM.md for when to use which.
+ *
+ * All of it is neutralized under prefers-reduced-motion at the bottom of
+ * this file — new utility classes should be added to that block too.
+ */
+
+/* ==================================================================== */
+/* Keyframes                                                             */
+/* ==================================================================== */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(18px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-18px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* A gentle overshoot pop — badges, toasts, follow-button state changes. */
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(.85); }
+  70% { opacity: 1; transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+/* Idle bob for illustrations/floating stickers — keeps a hero feeling alive
+   without drawing attention away from content. Very small amplitude. */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+/* "Live now" pulse — an expanding, fading ring. Used on live dots and the
+   proof-live indicator. */
+@keyframes pulse-live {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--accent) / .38); }
+  50% { box-shadow: 0 0 0 7px hsl(var(--accent) / 0); }
+}
+
+/* SVG path reveal — hero board squiggles, signature underlines. Pair with
+   stroke-dasharray set inline to the path's own length. */
+@keyframes draw-line {
+  from { stroke-dashoffset: 120; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* Skeleton loading sweep. */
+@keyframes shimmer {
+  from { background-position: -160% 0; }
+  to { background-position: 160% 0; }
+}
+
+/* A small attention nudge — use rarely, on the one thing per screen that
+   genuinely needs it (e.g. a first-time hint). */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+/* ==================================================================== */
+/* Entrance utilities                                                    */
+/* ==================================================================== */
+/* Apply on mount / on scroll-into-view. Combine with .delay-* below for   */
+/* a staggered group.                                                     */
+
+.fade-up { animation: fade-up var(--duration-slower) var(--ease-signal) both; }
+.fade-in { animation: fade-in var(--duration-slow) var(--ease-signal) both; }
+.scale-in { animation: scale-in var(--duration-slow) var(--ease-signal) both; }
+.slide-up { animation: slide-up var(--duration-slower) var(--ease-signal) both; }
+.slide-in-right { animation: slide-in-right var(--duration-slow) var(--ease-signal) both; }
+.slide-in-left { animation: slide-in-left var(--duration-slow) var(--ease-signal) both; }
+.pop-in { animation: pop-in var(--duration-slow) var(--ease-spring) both; }
+
+.delay-1 { animation-delay: calc(var(--stagger-step) * 1); }
+.delay-2 { animation-delay: calc(var(--stagger-step) * 2); }
+.delay-3 { animation-delay: calc(var(--stagger-step) * 3); }
+.delay-4 { animation-delay: calc(var(--stagger-step) * 4); }
+.delay-5 { animation-delay: calc(var(--stagger-step) * 5); }
+.delay-6 { animation-delay: calc(var(--stagger-step) * 6); }
+
+/* Auto-stagger a list: put style={{ '--index': i }} on each child and
+   `.stagger-children` on the parent, and drop an entrance class (e.g.
+   .fade-up) on each child — no manual .delay-N bookkeeping required. */
+.stagger-children > * { animation-delay: calc(var(--stagger-step) * var(--index, 0)); }
+
+/* ==================================================================== */
+/* Ambient / looping utilities                                           */
+/* ==================================================================== */
+
+.animate-float { animation: float 5.5s var(--ease-in-out) infinite; }
+.animate-pulse-live { animation: pulse-live 1.7s infinite; }
+.animate-wiggle { animation: wiggle .5s var(--ease-spring); }
+.animate-shimmer {
+  background-image: linear-gradient(
+    100deg,
+    transparent 35%,
+    hsl(var(--card)) 50%,
+    transparent 65%
+  );
+  background-size: 250% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* ==================================================================== */
+/* Interaction utilities                                                 */
+/* ==================================================================== */
+/* Standardized hover/press feedback — use instead of one-off transform +  */
+/* transition declarations so every card/button in the product moves the   */
+/* same amount, at the same speed.                                         */
+
+.hover-lift {
+  transition: transform var(--duration-fast) var(--ease-signal),
+    box-shadow var(--duration-fast) var(--ease-signal);
+}
+.hover-lift:hover { transform: translateY(-4px); }
+
+.hover-lift-lg {
+  transition: transform var(--duration-base) var(--ease-signal),
+    box-shadow var(--duration-base) var(--ease-signal);
+}
+.hover-lift-lg:hover { transform: translateY(-6px) rotate(-.35deg); }
+
+.hover-press {
+  transition: transform var(--duration-fast) var(--ease-signal);
+}
+.hover-press:hover { transform: translate(-2px, -2px); }
+.hover-press:active { transform: translate(0, 0); }
+
+.press-shrink { transition: transform var(--duration-instant) var(--ease-signal); }
+.press-shrink:active { transform: scale(.96); }
+
+/* ==================================================================== */
+/* Reduced motion                                                        */
+/* ==================================================================== */
+/* Every entrance/ambient animation collapses to its end state; every      */
+/* hover/press transform is disabled. Content remains fully visible and    */
+/* usable — nothing here should ever gate content on an animation firing.  */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .fade-up, .fade-in, .scale-in, .slide-up, .slide-in-right, .slide-in-left,
+  .pop-in, .animate-float, .animate-pulse-live, .animate-wiggle, .animate-shimmer,
+  .stagger-children > * {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hover-lift, .hover-lift-lg, .hover-press, .press-shrink,
+  .class-card, .upcoming-card, .friction-card,
+  .button-primary, .button-secondary, .icon-button {
+    transition: none !important;
+  }
+
+  .board-squiggle path, .live-dot, .proof-live span, .signal-live i {
+    animation: none !important;
+  }
+}

@@ -30,6 +30,7 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
+import StyleGuide from '@/pages/style-guide';
 
 const queryClient = new QueryClient();
 
@@ -399,7 +400,7 @@ function LandingPage() {
 }
 
 function Router() {
-  return <RoutedErrorBoundary><Switch><Route path="/" component={LandingPage} /><Route path="/browse" component={() => <DiscoveryPage browseMode />} /><Route component={NotFound} /></Switch></RoutedErrorBoundary>;
+  return <RoutedErrorBoundary><Switch><Route path="/" component={LandingPage} /><Route path="/browse" component={() => <DiscoveryPage browseMode />} /><Route path="/style-guide" component={StyleGuide} /><Route component={NotFound} /></Switch></RoutedErrorBoundary>;
 }
 
 function RoutedErrorBoundary({ children }: { children: ReactNode }) {

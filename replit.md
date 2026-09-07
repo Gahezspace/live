@@ -22,7 +22,11 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/jahez-live` — the public-facing React/Vite frontend (deployed to GitHub Pages). Design tokens + motion system: `artifacts/jahez-live/src/styles/tokens.css` and `animations.css`. **Full design system guide: `artifacts/jahez-live/DESIGN_SYSTEM.md`** — read it before adding or restyling any page; live reference at `/style-guide`.
+- `artifacts/api-server` — Express API server (DB-backed; not deployed to Pages, which is static-only).
+- `artifacts/mockup-sandbox` — design/mockup scratch space.
+- `lib/db` — Drizzle schema (source of truth for DB shape). `lib/api-spec`, `lib/api-zod`, `lib/api-client-react` — OpenAPI-generated contract + client hooks.
+- `.github/workflows/deploy-pages.yml` — builds `jahez-live` and deploys it to GitHub Pages on every push to `main`.
 
 ## Architecture decisions
 

@@ -1,23 +1,16 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { AlertCircle } from 'lucide-react';
+import { Link } from 'wouter';
+import { Compass, House } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md mx-4">
-        <CardContent className="pt-6">
-          <div className="flex mb-4 gap-2">
-            <AlertCircle className="h-8 w-8 text-red-500" />
-            <h1 className="text-2xl font-bold text-gray-900">
-              404 Page Not Found
-            </h1>
-          </div>
-
-          <p className="mt-4 text-sm text-gray-600">
-            Did you forget to add the page to the router?
-          </p>
-        </CardContent>
-      </Card>
+    <div className="not-found-shell fade-up" dir="rtl">
+      <span className="not-found-icon"><Compass size={26} /></span>
+      <p className="not-found-eyebrow">404</p>
+      <h1 className="not-found-title">الصفحة دي مش هنا</h1>
+      <p className="not-found-copy">يمكن الرابط اتغيّر أو الصفحة لسه ما اتعملتش. ارجع للرئيسية وابدأ من هناك.</p>
+      <Link href="/" className="button-primary" data-testid="link-notfound-home">
+        <House size={16} /> الرجوع للرئيسية
+      </Link>
     </div>
   );
 }
