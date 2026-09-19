@@ -11,6 +11,14 @@ const socialLinks = [
   { key: 'youtube', href: siteConfig.social.youtube, icon: Youtube, label: 'يوتيوب' },
 ].filter((s) => isConfigured(s.href));
 
+// The other Gahez products. Every product's footer lists the rest, so a
+// visitor who arrives at one can find the family.
+const PRODUCTS = [
+  { name: 'Gahez', line: 'إدارة الأكاديميات', href: 'https://gahez.space/' },
+  { name: 'Gahez Agent', line: 'ردود ذكية على عملائك', href: 'https://agent.gahez.space/' },
+  { name: 'Gahez أدوات', line: 'أدوات مجانية بالعربي', href: 'https://tools.gahez.space/' },
+];
+
 function FooterColumn({ heading, group }: { heading: string; group: 'platform' | 'help' | 'legal' }) {
   const links = footerGroup(group);
   if (!links.length) return null;
@@ -19,7 +27,9 @@ function FooterColumn({ heading, group }: { heading: string; group: 'platform' |
       <h3 className="footer-col-title">{heading}</h3>
       <ul className="footer-col-list">
         {links.map((r) => (
-          <li key={r.path}><Link href={r.path}>{r.footerLabel}</Link></li>
+          <li key={r.path}>
+            <Link href={r.path}>{r.footerLabel}</Link>
+          </li>
         ))}
       </ul>
     </div>
@@ -47,6 +57,18 @@ export function Footer() {
         <FooterColumn heading="المنصة" group="platform" />
         <FooterColumn heading="المساعدة" group="help" />
         <FooterColumn heading="قانوني" group="legal" />
+        <div className="footer-col">
+          <h3 className="footer-col-title">منتجات جاهز</h3>
+          <ul className="footer-col-list">
+            {PRODUCTS.map((product) => (
+              <li key={product.href}>
+                <a href={`${product.href}?utm_source=live&utm_medium=footer`}>
+                  <span dir="ltr">{product.name}</span>: {product.line}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <div className="container-wide site-footer-bottom">
         <span className="footer-copy">© {year} جاهز Live</span>

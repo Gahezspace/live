@@ -11,7 +11,7 @@ import { routes } from '@/lib/routes';
 import { breadcrumbJsonLd } from '@/lib/structured-data';
 
 const studentSteps = [
-  { icon: <UserPlus size={20} />, title: 'اعمل حساب', copy: 'حساب مجاني في دقيقة واحدة.' },
+  { icon: <UserPlus size={20} />, title: 'اعمل حساب', copy: 'حساب مجاني في دقيقة، من يوم الإطلاق 1 يناير 2027.' },
   { icon: <Eye size={20} />, title: 'اكتشف الحصة', copy: 'دوّر بالمادة، الصف، أو اسم المدرس.' },
   { icon: <Star size={20} />, title: 'شوف المدرس والتقييمات', copy: 'راجع تقييمات طلاب حضروا فعلاً.' },
   { icon: <Wallet size={20} />, title: 'ادفع', copy: 'ادفع قيمة الحصة وضمن مكانك.' },
@@ -21,7 +21,7 @@ const studentSteps = [
 ];
 
 const teacherSteps = [
-  { icon: <UserPlus size={20} />, title: 'أنشئ حساب مدرس', copy: 'حساب مخصص لإدارة حصصك.' },
+  { icon: <UserPlus size={20} />, title: 'أنشئ حساب مدرس', copy: 'حساب مخصص لإدارة حصصك، من يوم الإطلاق 1 يناير 2027.' },
   { icon: <CheckCircle2 size={20} />, title: 'أكمل بياناتك', copy: 'المادة، الخبرة، وصورة البروفايل.' },
   { icon: <CirclePlay size={20} />, title: 'أنشئ حصتك', copy: 'العنوان، الوصف، والصورة المصغّرة.' },
   { icon: <CalendarPlus size={20} />, title: 'حدد الميعاد والسعر', copy: 'حصة فورية أو Premiere قبلها بأيام.' },

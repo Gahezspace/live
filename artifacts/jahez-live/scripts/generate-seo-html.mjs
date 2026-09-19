@@ -21,7 +21,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const SITE_URL = 'https://gahezspace.github.io/live';
+const SITE_URL = 'https://live.gahez.space';
 const BRAND = 'جاهز Live';
 
 const routes = [

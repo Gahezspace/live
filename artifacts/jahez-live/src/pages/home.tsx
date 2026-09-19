@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { Header } from '@/components/marketing/header';
 import { Footer } from '@/components/marketing/footer';
-import { AuthDialog, type AuthMode } from '@/components/marketing/auth-dialog';
+import { LAUNCH_DATE, openWaitlist } from '@/lib/waitlist';
 import { SectionHeader } from '@/components/marketing/section-header';
 import { StepCard } from '@/components/marketing/step-card';
 import { FeatureCard } from '@/components/marketing/feature-card';
@@ -62,7 +62,6 @@ export default function Home() {
   });
 
   const [toast, setToast] = useState('');
-  const [authMode, setAuthMode] = useState<AuthMode | null>(null);
   const [followed, setFollowed] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -121,7 +120,7 @@ export default function Home() {
                   item={item}
                   followed={followed.has(item.teacherId)}
                   onFollow={() => toggleTeacher(item.teacherId, item.teacher)}
-                  onAction={() => notify(`جارٍ تجهيز حصة ${item.teacher}`)}
+                  onAction={() => openWaitlist('student')}
                 />
               ))}
             </div>
@@ -266,16 +265,15 @@ export default function Home() {
         <AppDownloadSection />
 
         {/* FINAL CTA */}
-        <CTASection variant="landing" kicker="جاهز للحصة الأولى؟" title={<>جاهز تبدأ<br /><span>حصتك؟</span></>} copy="أنشئ حساباً مجانياً، واترك للشرح أن يجدك.">
+        <CTASection variant="landing" kicker="جاهز للحصة الأولى؟" title={<>جاهز تبدأ<br /><span>حصتك؟</span></>} copy={`التسجيل بيفتح يوم الإطلاق، ${LAUNCH_DATE}. احجز مكانك دلوقتي ونبلّغك قبل أي حد.`}>
           <div className="final-cta-actions">
             <Link href={routes.classes.path} className="button-secondary" data-testid="link-final-browse">تصفح الحصص</Link>
-            <Link href={routes.forTeachers.path} className="button-secondary" data-testid="link-final-teacher"><UserPlus size={16} /> ابدأ كمدرس</Link>
+            <button className="button-secondary" onClick={() => openWaitlist()} data-testid="button-final-waitlist"><UserPlus size={16} /> احجز مكانك</button>
           </div>
         </CTASection>
       </main>
       <Footer />
       {toast && <div className="toast" role="status" data-testid="status-toast">{toast}</div>}
-      {authMode && <AuthDialog mode={authMode} onClose={() => setAuthMode(null)} onSwitch={setAuthMode} />}
     </div>
   );
 }

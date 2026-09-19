@@ -1,3 +1,10 @@
+> **Superseded palette (2026-09-19).** Gahez Live now carries the Gahez identity
+> shared with gahez.space, Agent and Tools: the G lockup, blue `#2563EB` into cyan
+> `#22D3EE`, navy text, soft shadows and even radii. The token *names* below are
+> unchanged; their values in `src/styles/tokens.css` changed. Where this document
+> describes teal, coral, paper, sticker shadows or one sharp corner, read the Gahez
+> equivalent. The identity rules live in Gahez Tools, `assets/design/BRAND.md`.
+
 # جاهز Live — Design System
 
 The single source of truth for how this product looks and moves. **Read this

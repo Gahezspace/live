@@ -1,8 +1,9 @@
 name: Deploy jahez-live to GitHub Pages
 
+# The site now runs on the Gahez server at live.gahez.space (docker-compose.yml
+# at the repository root). This workflow stays for a manual rebuild only; left
+# on every push it would keep a second copy of the site alive on github.io.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:

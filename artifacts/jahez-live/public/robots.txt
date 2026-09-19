@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gahezspace.github.io/live/sitemap.xml
+Sitemap: https://live.gahez.space/sitemap.xml

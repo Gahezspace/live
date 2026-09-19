@@ -2,6 +2,12 @@
  * جاهز Live — Design Tokens
  * ==========================
  * Single source of truth for color, type, spacing, shape and elevation.
+ *
+ * The values carry the Gahez identity shared with gahez.space, Agent and
+ * Tools: blue #2563EB into cyan #22D3EE, navy #0F172A text, slate neutrals,
+ * soft shadows and even radii. The rules live in Gahez Tools,
+ * assets/design/BRAND.md. The token names are unchanged, so every component
+ * picked up the new identity without being touched.
  * Every new page/component should read values from here — never hardcode
  * a new color, radius or shadow inline. See ../../DESIGN_SYSTEM.md for
  * the full usage guide.
@@ -55,36 +61,36 @@
   /* ---------------------------------------------------------------- */
   /* Color — semantic surface/text roles (shadcn convention, HSL triplets) */
   /* ---------------------------------------------------------------- */
-  --background: 38 33% 94%;
-  --foreground: 178 30% 16%;
-  --card: 40 40% 98%;
-  --card-foreground: 178 30% 16%;
-  --border: 38 17% 82%;
-  --input: 38 17% 82%;
-  --ring: 10 78% 60%;
-  --primary: 178 30% 16%;
-  --primary-foreground: 39 40% 97%;
-  --secondary: 157 29% 84%;
-  --secondary-foreground: 177 31% 20%;
-  --muted: 38 22% 89%;
-  --muted-foreground: 175 10% 42%;
-  --accent: 10 78% 60%;
-  --accent-foreground: 38 40% 97%;
-  --destructive: 2 67% 50%;
+  --background: 216 45% 98%;       /* #F7F9FC */
+  --foreground: 222 47% 11%;       /* #0F172A navy */
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --border: 217 36% 90%;           /* #DDE4EF */
+  --input: 217 36% 90%;
+  --ring: 221 83% 53%;
+  --primary: 222 47% 11%;          /* navy: headings, dark surfaces */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 218 92% 95%;        /* #E8F0FE */
+  --secondary-foreground: 224 76% 48%;
+  --muted: 217 62% 96%;            /* #EEF3FB */
+  --muted-foreground: 216 22% 37%; /* #4A5B74 */
+  --accent: 221 83% 53%;           /* #2563EB: every call to action */
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
-  --popover: 40 40% 98%;
-  --popover-foreground: 178 30% 16%;
-  --radius: .85rem;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --radius: 1rem;
 
   /* Semantic status colors — kept outside shadcn's palette so alerts/toasts
      in future pages don't invent new hues. Use sparingly; accent still
      covers "brand emphasis". */
-  --success: 152 45% 34%;
+  --success: 142 71% 45%;          /* #22C55E, success only */
   --success-foreground: 0 0% 100%;
-  --warning: 38 88% 48%;
-  --warning-foreground: 178 30% 16%;
-  --info: 205 60% 45%;
-  --info-foreground: 0 0% 100%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 222 47% 11%;
+  --info: 188 86% 53%;             /* #22D3EE cyan */
+  --info-foreground: 222 47% 11%;
 
   /* Fonts */
   --app-font-sans: 'Cairo', sans-serif;
@@ -94,11 +100,11 @@
   /* Raw brand hex — the "ink & paper" illustration palette used by hero
      boards, signal marks and stickers. Prefer the semantic tokens above
      for UI chrome; reach for these only in illustrative/brand contexts. */
-  --ink: #193b3a;
-  --paper: #f5f1e9;
-  --coral: #ed6a4d;
-  --sun: #efc958;
-  --mint: #cfe5dc;
+  --ink: #0f172a;    /* navy */
+  --paper: #f7f9fc;  /* page */
+  --coral: #2563eb;  /* brand blue, where the old palette had coral */
+  --sun: #22d3ee;    /* cyan, where it had yellow */
+  --mint: #dbe7fe;   /* soft blue, where it had mint */
 
   /* ---------------------------------------------------------------- */
   /* Typography scale                                                  */
@@ -116,7 +122,8 @@
   --text-display-md: 2rem;                             /* compact section headline (H2) */
 
   --leading-display: 1.15;
-  --tracking-display: -.09em;
+  /* Arabic joins its letters; negative tracking pulls them apart. */
+  --tracking-display: 0;
 
   /* ---------------------------------------------------------------- */
   /* Spacing — for bespoke component CSS only. New page layout should use  */
@@ -149,11 +156,12 @@
      tags/badges, -card for cards/panels, -panel for large surfaces
      (dialogs, hero boards, CTA banners). Pick the sharp corner to face
      whichever edge reads as the "start" of the shape in context. */
-  --radius-signal-sm: 4px 12px 4px 12px;
-  --radius-signal-badge: 4px 10px 4px 10px;
-  --radius-signal-card: 4px 18px 18px 18px;
-  --radius-signal-panel: 5px 25px 25px 25px;
-  --radius-signal-mark: 13px 13px 13px 3px;
+  /* Even now: Gahez surfaces round all four corners alike. */
+  --radius-signal-sm: 10px;
+  --radius-signal-badge: 8px;
+  --radius-signal-card: 18px;
+  --radius-signal-panel: 22px;
+  --radius-signal-mark: 12px;
 
   /* ---------------------------------------------------------------- */
   /* Elevation — flat, hard-edged "sticker" shadows (no blur). This        */
@@ -161,11 +169,13 @@
   /* Pair a size token with a color, e.g.:                                */
   /*   box-shadow: var(--shadow-sticker-sm) hsl(var(--accent) / .72);     */
   /* ---------------------------------------------------------------- */
-  --shadow-sticker-xs: 3px 3px 0;
-  --shadow-sticker-sm: 4px 4px 0;
-  --shadow-sticker-md: 6px 6px 0;
-  --shadow-sticker-lg: 9px 10px 0;
-  --shadow-sticker-xl: 12px 13px 0;
+  /* Soft now, as on gahez.space: the colour a component pairs with these
+     spreads as a glow under it rather than a hard offset block. */
+  --shadow-sticker-xs: 0 4px 10px -6px;
+  --shadow-sticker-sm: 0 8px 18px -10px;
+  --shadow-sticker-md: 0 12px 26px -14px;
+  --shadow-sticker-lg: 0 16px 34px -16px;
+  --shadow-sticker-xl: 0 20px 44px -18px;
 
   /* Conventional soft shadow, for floating surfaces that must sit above
      content without the sticker motif (menus, dropdowns, popovers). */

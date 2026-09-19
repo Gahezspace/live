@@ -1,22 +1,30 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { LogIn, Menu, UserPlus, X } from 'lucide-react';
+import { CalendarClock, Menu, X } from 'lucide-react';
 import { Logo } from '@/components/marketing/signal-mark';
-import { AuthDialog, type AuthMode } from '@/components/marketing/auth-dialog';
 import { primaryNav } from '@/lib/routes';
+import { LAUNCH_DATE, openWaitlist } from '@/lib/waitlist';
 
 export function Header() {
   const [location] = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<AuthMode | null>(null);
 
   const isActive = (path: string) => (path === '/' ? location === '/' : location.startsWith(path));
 
   return (
     <>
+      {/* Registration opens with the launch; until then every way in leads to the waiting list. */}
+      <button className="launch-bar" onClick={() => openWaitlist()} data-testid="button-launch-bar">
+        <CalendarClock size={15} aria-hidden="true" />
+        <span>
+          جاهز Live بينطلق يوم <strong>{LAUNCH_DATE}</strong>. سيب بياناتك ونبلّغك أول ما التسجيل يفتح.
+        </span>
+      </button>
       <header className="topbar">
         <div className="container-wide topbar-inner">
-          <Link href="/" className="brand-link" data-testid="link-brand-home"><Logo /></Link>
+          <Link href="/" className="brand-link" data-testid="link-brand-home">
+            <Logo />
+          </Link>
           <nav className="nav-links" aria-label="التنقل الرئيسي">
             {primaryNav.map((item) => (
               <Link
@@ -30,11 +38,8 @@ export function Header() {
             ))}
           </nav>
           <div className="topbar-actions">
-            <button className="header-login" onClick={() => setAuthMode('login')} data-testid="button-header-login">
-              <LogIn size={15} /> تسجيل الدخول
-            </button>
-            <button className="header-signup" onClick={() => setAuthMode('signup')} data-testid="button-header-signup">
-              <UserPlus size={15} /> ابدأ دلوقتي
+            <button className="header-signup" onClick={() => openWaitlist()} data-testid="button-header-waitlist">
+              <CalendarClock size={15} /> احجز مكانك
             </button>
             <button
               className="icon-button mobile-menu"
@@ -50,18 +55,27 @@ export function Header() {
         {menuOpen && (
           <div className="mobile-panel" role="dialog" aria-label="قائمة التنقل">
             {primaryNav.map((item) => (
-              <Link key={item.path} href={item.path} onClick={() => setMenuOpen(false)} data-testid={`mobile-link-${item.path.replace(/\//g, '') || 'home'}`}>
+              <Link
+                key={item.path}
+                href={item.path}
+                onClick={() => setMenuOpen(false)}
+                data-testid={`mobile-link-${item.path.replace(/\//g, '') || 'home'}`}
+              >
                 {item.navLabel}
               </Link>
             ))}
-            <button onClick={() => { setMenuOpen(false); setAuthMode('login'); }} data-testid="mobile-button-login">تسجيل الدخول</button>
-            <button onClick={() => { setMenuOpen(false); setAuthMode('signup'); }} data-testid="mobile-button-signup">ابدأ دلوقتي</button>
+            <button
+              onClick={() => {
+                setMenuOpen(false);
+                openWaitlist();
+              }}
+              data-testid="mobile-button-waitlist"
+            >
+              احجز مكانك قبل الإطلاق
+            </button>
           </div>
         )}
       </header>
-      {authMode && (
-        <AuthDialog mode={authMode} onClose={() => setAuthMode(null)} onSwitch={setAuthMode} />
-      )}
     </>
   );
 }

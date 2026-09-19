@@ -8,7 +8,7 @@
  */
 export const siteConfig = {
   /** Canonical production origin, used for canonical URLs, OG tags, sitemap, robots.txt. */
-  siteUrl: 'https://gahezspace.github.io/live',
+  siteUrl: 'https://live.gahez.space',
   brandName: 'جاهز Live',
 
   /** The authenticated web/mobile app users land in after a marketing CTA. Same origin until a real app domain exists. */

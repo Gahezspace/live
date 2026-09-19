@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { SignalMark } from '@/components/marketing/signal-mark';
+import { GahezMark } from '@/components/marketing/signal-mark';
 
 export function CTASection({
   kicker,
@@ -16,7 +16,7 @@ export function CTASection({
 }) {
   return (
     <section className={variant === 'landing' ? 'landing-cta' : 'cta-banner'}>
-      <div className="cta-signal"><SignalMark compact /></div>
+      <div className="cta-signal"><GahezMark /></div>
       <div>
         <p className="section-kicker">{kicker}</p>
         <h2>{title}</h2>

@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { BarChart3, CalendarClock, CircleDollarSign, Star, UserPlus, Users, Video } from 'lucide-react';
 import { Header } from '@/components/marketing/header';
 import { Footer } from '@/components/marketing/footer';
-import { AuthDialog, type AuthMode } from '@/components/marketing/auth-dialog';
+import { openWaitlist } from '@/lib/waitlist';
 import { SectionHeader } from '@/components/marketing/section-header';
 import { CTASection } from '@/components/marketing/cta-section';
 import { useSeo } from '@/hooks/use-seo';
@@ -26,7 +25,6 @@ export default function ForTeachers() {
     jsonLd: breadcrumbJsonLd([{ label: 'الرئيسية', path: '/' }, { label: 'للمدرسين' }]),
   });
 
-  const [authMode, setAuthMode] = useState<AuthMode | null>(null);
 
   return (
     <div className="app-shell" dir="rtl">
@@ -39,7 +37,7 @@ export default function ForTeachers() {
               <h1 style={{ fontSize: 'var(--text-display-hero)' }}>حوّل شرحك<br /><em>لمركز أونلاين.</em></h1>
               <p className="hero-copy">افتح حصصك، ابنِ جمهورك، وخلّي الطلاب يوصلولك — من غير ما تحتاج تبدأ من الصفر.</p>
               <div className="hero-actions">
-                <button className="button-primary" onClick={() => setAuthMode('signup')} data-testid="button-teachers-hero-cta"><UserPlus size={18} /> ابدأ كمدرس</button>
+                <button className="button-primary" onClick={() => openWaitlist('teacher')} data-testid="button-teachers-hero-cta"><UserPlus size={18} /> ابدأ كمدرس</button>
               </div>
             </div>
             <div className="teacher-dashboard-preview fade-up delay-1" aria-hidden="true">
@@ -71,11 +69,10 @@ export default function ForTeachers() {
         </section>
 
         <CTASection kicker="خطوتك الأولى" title="ابدأ تدريسك أونلاين النهاردة." copy="افتح حسابك كمدرس مجانًا وابدأ حصتك الأولى.">
-          <button className="button-secondary" onClick={() => setAuthMode('signup')} data-testid="button-teachers-final-cta"><UserPlus size={16} /> ابدأ كمدرس</button>
+          <button className="button-secondary" onClick={() => openWaitlist('teacher')} data-testid="button-teachers-final-cta"><UserPlus size={16} /> ابدأ كمدرس</button>
         </CTASection>
       </main>
       <Footer />
-      {authMode && <AuthDialog mode={authMode} onClose={() => setAuthMode(null)} onSwitch={setAuthMode} />}
     </div>
   );
 }
