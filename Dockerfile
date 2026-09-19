@@ -1,6 +1,9 @@
 # live.gahez.space: build the marketing site from the workspace, then run it
 # with its own dependency-free server (static pages + the waiting list).
-FROM node:24-alpine AS build
+# Debian, not Alpine, for the build: pnpm-workspace.yaml strips every native
+# binary except linux-x64 glibc (rollup, esbuild, lightningcss), so a musl
+# image finds none of them. The runtime below needs no native code at all.
+FROM node:24-slim AS build
 WORKDIR /app
 RUN npm install -g pnpm@11.21.0
 COPY . .
