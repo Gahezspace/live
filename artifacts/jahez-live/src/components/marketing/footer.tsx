@@ -14,8 +14,8 @@ const socialLinks = [
 // The other Gahez products. Every product's footer lists the rest, so a
 // visitor who arrives at one can find the family.
 const PRODUCTS = [
-  { name: 'Gahez', line: 'إدارة الأكاديميات', href: 'https://gahez.space/' },
-  { name: 'Gahez Agent', line: 'ردود ذكية على عملائك', href: 'https://agent.gahez.space/' },
+  { name: 'Gahez', line: 'نظام إدارة الأكاديميات والمراكز التعليمية', href: 'https://gahez.space/' },
+  { name: 'Gahez Agent', line: 'ردود ذكية على عملائك في ماسنجر وانستجرام وواتساب', href: 'https://agent.gahez.space/' },
   { name: 'Gahez أدوات', line: 'أدوات مجانية بالعربي', href: 'https://tools.gahez.space/' },
 ];
 
