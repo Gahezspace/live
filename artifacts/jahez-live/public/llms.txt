@@ -1,0 +1,38 @@
+# Gahez Live (جاهز Live)
+
+> Gahez Live is a marketplace for live online classes in Egypt: students discover teachers, compare them, and book a class in seconds; teachers open their own live classes, set a schedule and a price, and get discovered. It is one of five independent products built by Gahez (جاهز); see https://gahez.space/llms.txt for the company-wide overview.
+
+## What it does
+
+- Students browse live and upcoming classes across subjects and grade levels, filter by subject, grade, price and rating, and book in seconds.
+- Students compare teachers directly rather than being locked to one center or one teacher.
+- Teachers open their own classes, set their own schedule and price, and are discoverable by students who haven't found them yet.
+- Payment works on Android, iPhone and web.
+
+## Who it's for
+
+Students and parents in Egypt looking for a live-taught class outside a single fixed center, and teachers who want to teach online without building their own booking/payment system.
+
+## Key facts
+
+- **Website:** https://live.gahez.space
+- **Category:** Live online tutoring / EdTech marketplace
+- **Market:** Egypt
+- **Language:** Arabic
+
+## Key pages
+
+- Home: https://live.gahez.space/
+- Browse classes: https://live.gahez.space/classes
+- Teachers: https://live.gahez.space/teachers
+- For students: https://live.gahez.space/for-students
+- For teachers: https://live.gahez.space/for-teachers
+- How it works: https://live.gahez.space/how-it-works
+- Payments: https://live.gahez.space/payments
+- About: https://live.gahez.space/about
+- FAQ: https://live.gahez.space/faq
+- Contact: https://live.gahez.space/contact
+
+## How to cite Gahez Live
+
+"Gahez Live is a marketplace for live online classes in Egypt, where students discover and book teachers directly and teachers open their own live classes. It is one of five products built by Gahez (جاهز)."

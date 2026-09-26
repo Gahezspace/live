@@ -44,6 +44,23 @@ function escapeHtml(s) {
   return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+// One product among five (see gahez.space); no ratings/review counts here —
+// none are published anywhere on the site, so none are claimed in schema.
+const JSON_LD = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Organization', '@id': 'https://gahez.space/#organization', name: 'Gahez', alternateName: 'جاهز', url: 'https://gahez.space/' },
+    {
+      '@type': 'Service',
+      name: BRAND,
+      serviceType: 'Live online classes',
+      provider: { '@id': 'https://gahez.space/#organization' },
+      areaServed: 'EG',
+      url: SITE_URL,
+    },
+  ],
+};
+
 function seoBlock({ path, title, description }) {
   const url = `${SITE_URL}${path === '/' ? '/' : path}`;
   const t = escapeHtml(title);
@@ -60,6 +77,7 @@ function seoBlock({ path, title, description }) {
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="${t}" />
     <meta name="twitter:description" content="${d}" />
+    <script type="application/ld+json">${JSON.stringify(JSON_LD)}</script>
     <!--seo:end-->`;
 }
 
