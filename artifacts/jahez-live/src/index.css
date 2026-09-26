@@ -524,7 +524,7 @@ main, .topbar, .footer, .toast { position: relative; z-index: 2; }
 .button-primary, .header-signup { background: hsl(var(--accent)); color: hsl(var(--accent-foreground)); box-shadow: 0 10px 22px -12px hsl(var(--accent) / .75); }
 .button-primary:hover, .header-signup:hover { transform: translateY(-2px); background: hsl(224 76% 48%); box-shadow: 0 14px 28px -12px hsl(var(--accent) / .8); }
 
-.launch-bar { display: flex; width: 100%; align-items: center; justify-content: center; gap: 8px; padding: 9px 16px; border: 0; background: linear-gradient(135deg, #2563eb, #22d3ee); color: #fff; font: 600 .85rem/1.6 var(--app-font-sans); text-align: center; cursor: pointer; }
+.launch-bar { display: flex; width: 100%; align-items: center; justify-content: center; gap: 8px; padding: 9px 16px; border: 0; background: linear-gradient(135deg, #E11D48, #FB7185); color: #fff; font: 600 .85rem/1.6 var(--app-font-sans); text-align: center; cursor: pointer; }
 .launch-bar strong { font-weight: 800; }
 .launch-bar:hover { filter: brightness(1.06); }
 
