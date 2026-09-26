@@ -30,8 +30,8 @@ export default function Payments() {
   return (
     <ContentPage
       eyebrow="الدفع والحجز"
-      title="الدفع بسيط وآمن."
-      subtitle="طريقة الدفع بتختلف شوية حسب الجهاز اللي بتستخدمه — إليك التفاصيل."
+      title="الدفع والحجز واضحين من البداية."
+      subtitle="قبل ما تحجز، شوف سعر الحصة وتفاصيلها. بعد الدفع، تفاصيل الحجز تظهر في حسابك."
       crumbs={[{ label: 'الرئيسية', path: '/' }, { label: 'الدفع' }]}
     >
       <div className="mp-payment-methods">
@@ -62,7 +62,7 @@ export default function Payments() {
       <FaqAccordion categories={paymentFaq} />
 
       <p className="mp-inline-link">
-        عايز تعرف أكتر عن الاسترجاع؟ <Link href={routes.refundPolicy.path}>سياسة الاسترجاع</Link>
+        لو احتجت استرجاع، راجع سياسة الاسترجاع حسب حالة الحجز ووقت الطلب. <Link href={routes.refundPolicy.path}>اقرأ سياسة الاسترجاع</Link>
       </p>
     </ContentPage>
   );

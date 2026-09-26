@@ -45,8 +45,8 @@ export default function Teachers() {
         <section className="classes-hero">
           <div className="container-wide">
             <p className="section-kicker fade-up">المدرسين</p>
-            <h1 className="classes-hero-title fade-up">اكتشف مدرسك الجاي.</h1>
-            <p className="classes-hero-copy fade-up delay-1">قارن بين المدرسين، شوف التقييمات، تابع اللي يناسبك، واعرف حصصهم الجاية.</p>
+            <h1 className="classes-hero-title fade-up">اختار المدرس اللي يناسبك.</h1>
+            <p className="classes-hero-copy fade-up delay-1">كل مدرس عنده تقييمات من الطلاب اللي حضروا حصصه، وعدد حصص ومتابعين. قارن قبل ما تحجز.</p>
           </div>
         </section>
 
@@ -82,7 +82,7 @@ export default function Teachers() {
             {
               heading: 'يعني إيه "مدرس موثّق"؟',
               paragraphs: [
-                'علامة التوثيق بتظهر على حسابات المدرسين اللي جاهز Live أكّد بياناتهم. غياب العلامة مايعنيش إن المدرس مش كويس — بس التوثيق بيديك طبقة تأكيد إضافية.',
+                'علامة التوثيق بتظهر على حسابات المدرسين اللي جاهز Live أكد بياناتهم. عدم وجود العلامة مش معناه إن المدرس مش كويس؛ التوثيق مجرد طبقة تأكيد إضافية.',
               ],
             },
           ]}

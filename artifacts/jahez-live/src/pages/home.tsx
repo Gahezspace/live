@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'wouter';
 import {
-  ArrowDown, ArrowLeft, Bell, CalendarClock, CalendarDays, CarFront,
-  CircleDollarSign, CirclePlay, Eye, LifeBuoy, MessageCircle,
-  MonitorPlay, Radio, RotateCcw, ShieldCheck, Sparkles, Star, TrendingUp,
-  UserPlus, Users, Video,
+  ArrowDown, ArrowLeft, CalendarClock, CalendarDays, CarFront,
+  CircleDollarSign, CirclePlay, Eye, Globe, LifeBuoy, MessageCircle,
+  MonitorPlay, Radio, ShieldCheck, Sparkles, Star, TrendingUp,
+  UserCheck, UserPlus, Users, Video,
 } from 'lucide-react';
 import { Header } from '@/components/marketing/header';
 import { Footer } from '@/components/marketing/footer';
@@ -36,14 +36,10 @@ function LandingSignalVisual() {
 }
 
 const whyLiveItems = [
-  { icon: <MessageCircle size={18} />, title: 'شرح مباشر', copy: 'مش فيديو مسجل — المدرس قدامك دلوقتي.' },
-  { icon: <Users size={18} />, title: 'تفاعل حقيقي', copy: 'اسأل واستنى الإجابة في نفس اللحظة.' },
-  { icon: <TrendingUp size={18} />, title: 'اختيارات متعددة', copy: 'أكتر من مدرس لكل مادة — اختار اللي يناسبك.' },
-  { icon: <Star size={18} />, title: 'تقييمات حقيقية', copy: 'شوف رأي طلاب حضروا قبلك فعلاً.' },
-  { icon: <CalendarClock size={18} />, title: 'مواعيد واضحة', copy: 'تعرف الحصة هتبدأ إمتى بالظبط.' },
-  { icon: <Bell size={18} />, title: 'متابعة المدرسين', copy: 'اتابع اللي بتحب شرحه وهتعرف أول ما يبدأ.' },
-  { icon: <RotateCcw size={18} />, title: 'Replay متاح', copy: 'فاتتك الحصة؟ بعض الحصص تقدر تراجعها بعدين.' },
-  { icon: <ShieldCheck size={18} />, title: 'دخول آمن للحصة', copy: 'مكانك محجوز ومضمون بعد الدفع.' },
+  { icon: <UserCheck size={18} />, title: 'مدرس حقيقي', copy: 'اسأل، ناقش، وخد رد في نفس اللحظة.' },
+  { icon: <CalendarClock size={18} />, title: 'ميعاد واضح', copy: 'تحجز الحصة وتدخل في وقتها.' },
+  { icon: <TrendingUp size={18} />, title: 'اختيارات أكتر', copy: 'قارن بين مدرسين وحصص قبل ما تحجز.' },
+  { icon: <Globe size={18} />, title: 'من أي مكان', copy: 'المهم تكون موجود وقت الحصة.' },
 ];
 
 const trustItems = [
@@ -175,7 +171,7 @@ export default function Home() {
         {/* WHY LIVE CLASSES */}
         <section className="why-live-section">
           <div className="container-wide">
-            <SectionHeader kicker="السبب" title="ليه حصص لايف؟" index="03 / السبب" />
+            <SectionHeader kicker="السبب" title="ليه حصة لايف؟" index="03 / السبب" />
             <div className="why-live-grid">
               {whyLiveItems.map((item) => (
                 <div className="why-live-item hover-lift" key={item.title}>

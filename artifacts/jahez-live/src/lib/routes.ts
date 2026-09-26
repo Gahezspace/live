@@ -46,13 +46,13 @@ export const routes: Record<RouteKey, RouteMeta> = {
     footerGroup: 'platform',
     title: 'حصص أونلاين مباشرة مع مدرسين | جاهز Live',
     description:
-      'اكتشف حصص مباشرة، تابع المدرسين اللي بتحب شرحهم، واحجز حصتك في ثواني. منصة جاهز Live للتعليم الأونلاين المباشر في مصر.',
+      'اكتشف حصص مباشرة، قارن بين المدرسين، واحجز حصتك في ثواني. جاهز Live للتعليم الأونلاين المباشر في مصر.',
     indexable: true,
   },
   classes: {
     path: '/classes',
-    navLabel: 'الحصص',
-    footerLabel: 'الحصص',
+    navLabel: 'تصفح الحصص',
+    footerLabel: 'تصفح الحصص',
     footerGroup: 'platform',
     title: 'حصص أونلاين مباشرة | اكتشف واحجز حصتك — جاهز Live',
     description:
@@ -71,8 +71,8 @@ export const routes: Record<RouteKey, RouteMeta> = {
   },
   howItWorks: {
     path: '/how-it-works',
-    navLabel: 'إزاي بتشتغل؟',
-    footerLabel: 'إزاي بتشتغل؟',
+    navLabel: 'إزاي بيشتغل',
+    footerLabel: 'إزاي بيشتغل',
     footerGroup: 'platform',
     title: 'إزاي تحجز وتحضر حصص أونلاين؟ | جاهز Live',
     description: 'خطوة بخطوة: إزاي تكتشف الحصة وتحجزها كطالب، وإزاي تفتح حصتك كمدرس على جاهز Live.',
@@ -80,8 +80,8 @@ export const routes: Record<RouteKey, RouteMeta> = {
   },
   forStudents: {
     path: '/for-students',
-    navLabel: 'للطلبة',
-    footerLabel: 'للطلبة',
+    navLabel: 'للطلاب',
+    footerLabel: 'للطلاب',
     footerGroup: 'platform',
     title: 'حصص أونلاين للطلاب | اختار مدرسك وحصتك — جاهز Live',
     description: 'مش مربوط بسنتر واحد ولا مدرس واحد. اختار من مدرسين متعددين، شوف التقييمات، وتابع اللي يناسبك.',
@@ -98,6 +98,7 @@ export const routes: Record<RouteKey, RouteMeta> = {
   },
   payments: {
     path: '/payments',
+    navLabel: 'الأسعار / الدفع',
     footerLabel: undefined,
     title: 'طرق الدفع والحجز | جاهز Live',
     description: 'إزاي الدفع بيشتغل على أندرويد، آيفون، والويب، وإيه اللي بيحصل بعد ما تدفع قيمة الحصة.',
@@ -112,6 +113,7 @@ export const routes: Record<RouteKey, RouteMeta> = {
   },
   faq: {
     path: '/faq',
+    navLabel: 'أسئلة',
     footerLabel: 'الأسئلة الشائعة',
     footerGroup: 'help',
     title: 'الأسئلة الشائعة عن الحصص الأونلاين | جاهز Live',
@@ -153,13 +155,19 @@ export const routes: Record<RouteKey, RouteMeta> = {
 };
 
 export const routeList = Object.values(routes);
+/**
+ * Header nav order per the approved copy: browse-first, then teachers,
+ * students, teachers-recruitment, how it works, payments, FAQ. Home is
+ * reachable via the logo (see Header), so it isn't repeated here.
+ */
 export const primaryNav: RouteMeta[] = [
-  routes.home,
   routes.classes,
   routes.teachers,
-  routes.howItWorks,
   routes.forStudents,
   routes.forTeachers,
+  routes.howItWorks,
+  routes.payments,
+  routes.faq,
 ];
 
 export function footerGroup(group: RouteMeta['footerGroup']): RouteMeta[] {

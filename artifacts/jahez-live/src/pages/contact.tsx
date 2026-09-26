@@ -32,7 +32,8 @@ export default function Contact() {
   return (
     <ContentPage
       eyebrow="مركز المساعدة"
-      title="محتاج مساعدة؟ إحنا معاك."
+      title="عندك سؤال؟"
+      subtitle="لو عندك سؤال عن حجز، مدرس، دفع أو استخدام المنصة، ابعتلنا."
       crumbs={[{ label: 'الرئيسية', path: '/' }, { label: 'تواصل معنا' }]}
     >
       <div className="mp-contact-grid">

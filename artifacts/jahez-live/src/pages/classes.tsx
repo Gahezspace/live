@@ -107,7 +107,7 @@ export default function Classes() {
           <div className="container-wide">
             <p className="section-kicker fade-up">تصفح الحصص</p>
             <h1 className="classes-hero-title fade-up">الحصص الأونلاين</h1>
-            <p className="classes-hero-copy fade-up delay-1">اكتشف حصص مباشرة وحصص جاية مع مدرسين تقدر تتابعهم وتحجز معاهم.</p>
+            <p className="classes-hero-copy fade-up delay-1">دور على المادة اللي محتاجها، اختار المدرس، وشوف الميعاد والسعر قبل ما تحجز.</p>
           </div>
         </section>
 
@@ -138,7 +138,11 @@ export default function Classes() {
             </div>
 
             {filtered.length === 0 ? (
-              <EmptyState action={<button className="button-secondary" onClick={() => { setQuery(''); setSubject('الكل'); setGrade('كل المراحل'); }} data-testid="button-clear-filters">إظهار كل الحصص</button>} />
+              <EmptyState
+                title="مفيش حصص مطابقة دلوقتي."
+                copy="جرّب تغيّر البحث أو الفلاتر."
+                action={<button className="button-secondary" onClick={() => { setQuery(''); setSubject('الكل'); setGrade('كل المراحل'); }} data-testid="button-clear-filters">إظهار كل الحصص</button>}
+              />
             ) : (
               <div className="class-rows">
                 <ClassRow title="شغالة دلوقتي" items={liveNow} followed={followedTeachers} onFollow={toggleFollow} onAction={handleAction} emptyLabel="مفيش حصص مباشرة دلوقتي بالفلتر ده." />

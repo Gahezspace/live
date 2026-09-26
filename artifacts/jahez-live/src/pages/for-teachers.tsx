@@ -1,4 +1,4 @@
-import { BarChart3, CalendarClock, CircleDollarSign, Star, UserPlus, Users, Video } from 'lucide-react';
+import { CalendarClock, CircleDollarSign, UserPlus, Users, Video } from 'lucide-react';
 import { Header } from '@/components/marketing/header';
 import { Footer } from '@/components/marketing/footer';
 import { openWaitlist } from '@/lib/waitlist';
@@ -9,12 +9,10 @@ import { routes } from '@/lib/routes';
 import { breadcrumbJsonLd } from '@/lib/structured-data';
 
 const sections = [
-  { icon: <Video size={22} />, title: 'افتح حصتك', copy: 'افتح حصتك في دقائق — عنوان، وصف، وصورة مصغّرة.' },
-  { icon: <CalendarClock size={22} />, title: 'حدد الميعاد', copy: 'حصة فورية دلوقتي، أو أعلن عنها كـ Premiere قبلها بأيام.' },
-  { icon: <CircleDollarSign size={22} />, title: 'حدد السعر', copy: 'إنت اللي بتحدد سعر حصتك المناسب.' },
-  { icon: <Users size={22} />, title: 'اجمع جمهورك', copy: 'الطلاب يقدروا يكتشفوك ويتابعوك عشان توصلهم حصصك الجديدة.' },
-  { icon: <Star size={22} />, title: 'ابنِ سمعتك', copy: 'كل تقييم من طالب حضر فعلاً بيبني ثقة أكبر فيك.' },
-  { icon: <BarChart3 size={22} />, title: 'تابع أداءك', copy: 'مشاهدات، عدد طلاب، حضور، وأرباح — في مكان واحد.' },
+  { icon: <Video size={22} />, title: 'إنشاء حصص' },
+  { icon: <CalendarClock size={22} />, title: 'تحديد السعر والميعاد' },
+  { icon: <Users size={22} />, title: 'ظهور للطلاب' },
+  { icon: <CircleDollarSign size={22} />, title: 'حجز ودفع' },
 ];
 
 export default function ForTeachers() {
@@ -34,8 +32,8 @@ export default function ForTeachers() {
           <div className="container-wide teacher-hero-grid">
             <div className="landing-hero-copy fade-up">
               <div className="eyebrow"><span className="eyebrow-line" /> للمدرسين <span className="eyebrow-dot" /></div>
-              <h1 style={{ fontSize: 'var(--text-display-hero)' }}>حوّل شرحك<br /><em>لمركز أونلاين.</em></h1>
-              <p className="hero-copy">افتح حصصك، ابنِ جمهورك، وخلّي الطلاب يوصلولك — من غير ما تحتاج تبدأ من الصفر.</p>
+              <h1 style={{ fontSize: 'var(--text-display-hero)' }}>درّس أونلاين<br /><em>من غير ما تبني المنصة بنفسك.</em></h1>
+              <p className="hero-copy">افتح حسابك كمدرس، اعمل حصتك، حدد الميعاد والسعر، وخلي الطلاب يلاقوك ويحجزوا.</p>
               <div className="hero-actions">
                 <button className="button-primary" onClick={() => openWaitlist('teacher')} data-testid="button-teachers-hero-cta"><UserPlus size={18} /> ابدأ كمدرس</button>
               </div>
@@ -61,7 +59,6 @@ export default function ForTeachers() {
                 <div className="friction-card hover-lift" key={s.title}>
                   <span className="friction-icon">{s.icon}</span>
                   <h3>{s.title}</h3>
-                  <p>{s.copy}</p>
                 </div>
               ))}
             </div>
