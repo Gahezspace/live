@@ -74,7 +74,7 @@
   --secondary-foreground: 224 76% 48%;
   --muted: 217 62% 96%;            /* #EEF3FB */
   --muted-foreground: 216 22% 37%; /* #4A5B74 */
-  --accent: 221 83% 53%;           /* #2563EB: every call to action */
+  --accent: 347 77% 50%;           /* #E11D48 rose: "live broadcast" brand accent, every call to action */
   --accent-foreground: 0 0% 100%;
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
@@ -102,7 +102,7 @@
      for UI chrome; reach for these only in illustrative/brand contexts. */
   --ink: #0f172a;    /* navy */
   --paper: #f7f9fc;  /* page */
-  --coral: #2563eb;  /* brand blue, where the old palette had coral */
+  --coral: #e11d48;  /* rose/red again: matches the new --accent, undoing the old blue rebrand */
   --sun: #22d3ee;    /* cyan, where it had yellow */
   --mint: #dbe7fe;   /* soft blue, where it had mint */
 
